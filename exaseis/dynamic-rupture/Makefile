@@ -1,0 +1,36 @@
+# This file is part of the Peano project. For conditions of distribution and
+# use, please see the copyright notice at www.peano-framework.org
+.PHONY: all solver clean help distclean maintainter-clean
+
+all: solver
+
+solver:
+	bash -c "mkdir -p build.TPV5_l_3_o_5_pr_fp32 && cd build.TPV5_l_3_o_5_pr_fp32 && cmake .. && make $(MAKEFLAGS)"
+
+clean:
+	bash -c "cd build.TPV5_l_3_o_5_pr_fp32 && make clean"
+
+help:
+	bash -c "cd build.TPV5_l_3_o_5_pr_fp32 && make help"
+
+GENERATED_H_HEADERS=kernels/ElasticSolver/CellErrorIntegral.h kernels/ElasticSolver/MaxScaledEigenvalue.h kernels/ElasticSolver/FaceIntegral.h kernels/ElasticSolver/RiemannSolver.h kernels/ElasticSolver/AMRRoutines.h kernels/ElasticSolver/BufferSizes.h kernels/ElasticSolver/DGMatrices.h kernels/ElasticSolver/Quadrature.h kernels/ElasticSolver/FusedSpaceTimePredictorVolumeIntegral.h AbstractElasticSolver.h ElasticSolver.h VariableShortcutsElasticSolver.h observers/CreateGridWithRefinement.h observers/CreateGridWithoutRefinement.h observers/InitGrid.h observers/PlotSolution.h observers/CheckpointSolution.h observers/TimeStep.h dynamicRupture-main.h 
+GENERATED_CXX_SOURCES=kernels/ElasticSolver/CellErrorIntegral.cpp kernels/ElasticSolver/MaxScaledEigenvalue.cpp kernels/ElasticSolver/FaceIntegral.cpp kernels/ElasticSolver/RiemannSolver.cpp kernels/ElasticSolver/AMRRoutines.cpp kernels/ElasticSolver/DGMatrices.cpp kernels/ElasticSolver/Quadrature.cpp kernels/ElasticSolver/FusedSpaceTimePredictorVolumeIntegral.cpp AbstractElasticSolver.cpp ElasticSolver.cpp repositories/SolverRepository.cpp celldata/ElasticSolverCellLabel.cpp celldata/ElasticSolverQ.cpp celldata/ElasticSolverQ_old.cpp facedata/ElasticSolverFaceLabel.cpp facedata/ElasticSolverQEstimates.cpp facedata/ElasticSolverQFluxEstimates.cpp repositories/DataRepository.cpp observers/CreateGridWithRefinement_0_exahype2_grid_FaceLabel.cpp observers/CreateGridWithRefinement_1_exahype2_grid_CellLabel.cpp observers/CreateGridWithRefinement_2_exahype2_solvers_aderdg_actionsets_InitialCondition.cpp observers/CreateGridWithRefinement_3_exahype2_solvers_aderdg_actionsets_AdaptivityCriterion.cpp observers/CreateGridWithRefinement.cpp observers/CreateGridWithoutRefinement_0_exahype2_grid_FaceLabel.cpp observers/CreateGridWithoutRefinement_1_exahype2_grid_CellLabel.cpp observers/CreateGridWithoutRefinement_2_exahype2_solvers_aderdg_actionsets_InitialCondition.cpp observers/CreateGridWithoutRefinement_3_exahype2_solvers_aderdg_actionsets_AdaptivityCriterion.cpp observers/CreateGridWithoutRefinement.cpp observers/InitGrid_0_exahype2_grid_FaceLabel.cpp observers/InitGrid_1_exahype2_grid_CellLabel.cpp observers/InitGrid_2_exahype2_solvers_aderdg_actionsets_InitialCondition.cpp observers/InitGrid_3_exahype2_solvers_aderdg_actionsets_AdaptivityCriterion.cpp observers/InitGrid_4_exahype2_solvers_aderdg_actionsets_PostprocessSolution.cpp observers/InitGrid.cpp observers/PlotSolution_0_exahype2_grid_FaceLabel.cpp observers/PlotSolution_1_exahype2_grid_CellLabel.cpp observers/PlotSolution_2_peano4_toolbox_blockstructured_PlotPatchesInPeanoBlockFormat.cpp observers/PlotSolution_3_exahype2_solvers_aderdg_actionsets_DynamicAMR.cpp observers/PlotSolution.cpp observers/CheckpointSolution.cpp observers/TimeStep_0_exahype2_grid_FaceLabel.cpp observers/TimeStep_1_exahype2_grid_CellLabel.cpp observers/TimeStep_2_exahype2_tracer_CurviTracer.cpp observers/TimeStep_3_exahype2_solvers_aderdg_actionsets_DynamicAMR.cpp observers/TimeStep_4_exahype2_solvers_aderdg_actionsets_HandleBoundary.cpp observers/TimeStep_5_exahype2_solvers_aderdg_actionsets_Correction.cpp observers/TimeStep_6_exahype2_solvers_aderdg_actionsets_Prediction.cpp observers/TimeStep_7_exahype2_solvers_aderdg_actionsets_PredictionOnHangingCells.cpp observers/TimeStep_8_exahype2_solvers_aderdg_actionsets_AdaptivityCriterion.cpp observers/TimeStep_9_exahype2_solvers_aderdg_actionsets_PostprocessSolution.cpp observers/TimeStep.cpp repositories/StepRepository.cpp dynamicRupture-main.cpp 
+GENERATED_FORTRAN_SOURCES=
+
+
+distclean:
+	rm -f TPV5_l_3_o_5_pr_fp32
+	rm -rf build.TPV5_l_3_o_5_pr_fp32
+	rm -f ${GENERATED_H_HEADERS}
+	rm -f ${GENERATED_CXX_SOURCES}
+	rm -f ${GENERATED_FORTRAN_SOURCES}
+	
+	rm -rf globaldata celldata facedata vertexdata observers repositories tasks kernels
+	rm -f Constants.h
+	
+	rm -f README-*
+	rm -f .gitignore
+	rm -f Makefile
+	rm -f CMakeLists.txt
+
+maintainer-clean: distclean
