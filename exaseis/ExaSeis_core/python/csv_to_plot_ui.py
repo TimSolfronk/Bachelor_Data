@@ -102,12 +102,16 @@ def display_tracer_graphs(tracerPos):
 def get_tracer_name(tracerPos):
     tracerName = "("
     coord_list = str(tracerPos)[1:-1].split(",")
-    for i in range(len(coord_list)):
-        if args.has_offset and (i == 2 or i==0):
-            tracerName +=str(round(float((coord_list[i].strip())[1:-1])-20.,1)) + ", "
-        else:
-            tracerName += str(round(float((coord_list[i].strip())[1:-1]),1)) + ", "
+    offset = 20. if args.has_offset else 0.
 
+    for i in range(len(coord_list)):
+        match i:
+            case 0:
+                tracerName += "body " + str(round(float((coord_list[i].strip())[1:-1])-offset,1)) + ", "
+            case 1:
+                tracerName += "dip " + str(round(float((coord_list[i].strip())[1:-1]),1)) + ", "
+            case 2:
+                tracerName += "strike " + str(round(float((coord_list[i].strip())[1:-1])-offset,1)) + ", "
 
     tracerName = tracerName[:-2] + ")"
     return tracerName
@@ -130,12 +134,6 @@ def get_variable_ids(variableListString):
             print("Discarded id '" + entryId + "' of argument --v, because this id does not exist")
 
     return output
-
-
-
-
-def on_button_click(name):
-    print(f"Button clicked: {name}")
 
 
 def main():
