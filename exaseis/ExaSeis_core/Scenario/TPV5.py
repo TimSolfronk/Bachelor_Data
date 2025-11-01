@@ -21,13 +21,13 @@ class TPV5(Scenario):
 
     tracer_coordinates = [
           # off-fault at surface
-          [17.0, 0.0,  8.0],
-          [17.0, 0.0, 32.0],
+          #[17.0, 0.0,  8.0],
+          #[17.0, 0.0, 32.0],
           [23.0, 0.0,  8.0],
           [23.0, 0.0, 32.0],
           # off-fault at hypocenter depth
-          [17.0, 7.5,  8.0],
-          [17.0, 7.5, 32.0],
+          #[17.0, 7.5,  8.0],
+          #[17.0, 7.5, 32.0],
           [23.0, 7.5,  8.0],
           [23.0, 7.5, 32.0],
           # on-fault at surface
@@ -38,6 +38,7 @@ class TPV5(Scenario):
           [20.0, 0.0, 24.5],
           [20.0, 0.0, 27.5],
           [20.0, 0.0, 32.0],
+          #on-fault below surface
           [20.0, 3.0, 20.0], #above fault hypocenter
           [20.0, 12.0, 20.0], #below fault hypocenter
           #on-fault at hypocenter depth
