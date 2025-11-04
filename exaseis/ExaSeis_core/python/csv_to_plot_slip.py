@@ -10,7 +10,55 @@ from tkinter import ttk
 
 ROW_AMOUNT = 3
 ROUND_TO = 12
+OFFSET_TO_CENTER = 20.
 
+NAME_CONFIG = { "on-fault": [
+                    "n-slip-rate (x)",
+                    "v-slip-rate (y)",
+                    "h-slip-rate (z)",
+                    "σ_xx",
+                    "σ_yy",
+                    "σ_zz",
+                    "v-shear-stress (σ_xy)",
+                    "h-shear-stress (σ_xz)",
+                    "σ_yz",
+                    "n-slip (x)",
+                    "v-slip (y)",
+                    "h-slip (z)"],
+                "off-fault": [
+                    "n-vel (x)",
+                    "v-vel (y)",
+                    "h-vel (z)",
+                    "σ_xx",
+                    "σ_yy",
+                    "σ_zz",
+                    "v-shear-stress (σ_xy)",
+                    "h-shear-stress (σ_xz)",
+                    "σ_yz",
+                    "n-displacement (x)",
+                    "v-displacement (y)",
+                    "h-displacement (z)"]}
+
+SHOW_CONFIG = { "on-fault": [
+                    7,
+                    11,
+                    2,
+                    6,
+                    10,
+                    1
+                ],
+                "off-fault": [
+                    11,
+                    2,
+                    9,
+                    0,
+                    10,
+                    1
+                ]
+
+}
+
+ON_FAULT_SUB = [True,True,True,False,False,False,False,False,False,True,True,True]
 
 
 
@@ -73,21 +121,34 @@ def get_specific_tracer_data(csvDataFiltered, offset):
 
 
     """
-    Plot the all the specified data of the given tracer
+    Plot all the specified data of the given tracer
     """
 def display_tracer_graphs(tracerPos):
     csvDataForTracer = get_all_tracer_data(csvData,tracerPos)
+    faultStatus = "off-fault"
 
-    dataAmount = len(varsToPlot)
+    if tracerPos[0] == positiveBodyOnFault: 
+        csvDataSub = get_all_tracer_data(csvData, (negativeBodyOnFault,tracerPos[1],tracerPos[2]))
+        faultStatus = "on-fault"
+        dataLength = min(len(csvDataForTracer), len(csvDataSub))
+        csvDataForTracer = csvDataForTracer[:dataLength]
+        csvDataSub = csvDataSub[:dataLength]
+        for i in range(len(csvDataForTracer)):
+            for j in range(len(ON_FAULT_SUB)):
+                if ON_FAULT_SUB[j]:
+                    csvDataForTracer[i][dataIndex+j] = float(csvDataForTracer[i][dataIndex+j]) - float(csvDataSub[i][dataIndex+j])
+
+
+    dataAmount = len(varsToPlot[faultStatus])
     columnAmount = dataAmount//ROW_AMOUNT + (1 if dataAmount%ROW_AMOUNT>0 else 0)
     fig, axs = plt.subplots(ROW_AMOUNT, columnAmount, figsize=(9, 13))
     fig.canvas.manager.set_window_title(simulationName + " at " + get_tracer_name(tracerPos))
 
     for i in range(dataAmount):
-        dt, y = get_specific_tracer_data(csvDataForTracer, varsToPlot[i])
+        dt, y = get_specific_tracer_data(csvDataForTracer, varsToPlot[faultStatus][i])
         currentPlot = axs[i%ROW_AMOUNT, i//ROW_AMOUNT] if columnAmount > 1 else axs[i]
         #currentPlot.plot(dt, y, color = 'b', linestyle = 'dashed', marker = 'o',label = "Variable " + str(i+1) + " as a function of time")
-        varName = varNames[varsToPlot[i]]
+        varName = NAME_CONFIG[faultStatus][varsToPlot[faultStatus][i]]
         currentPlot.plot(dt, y, color = 'b', label = varName + " as a function of time")
         currentPlot.set_title(varName)
         currentPlot.set_xlabel('t')
@@ -103,16 +164,16 @@ def display_tracer_graphs(tracerPos):
 def get_tracer_name(tracerPos):
     tracerName = "("
     coord_list = str(tracerPos)[1:-1].split(",")
-    offset = 20. if args.has_offset else 0.
 
     for i in range(len(coord_list)):
         match i:
             case 0:
-                tracerName += "body " + str(round(float((coord_list[i].strip())[1:-1])-offset,ROUND_TO)) + ", "
+                if (coord_list[i].strip())[1:-1] != positiveBodyOnFault:
+                    tracerName += "body " + str(round(float((coord_list[i].strip())[1:-1])-OFFSET_TO_CENTER,ROUND_TO)) + ", "
             case 1:
                 tracerName += "dip " + str(round(float((coord_list[i].strip())[1:-1]),ROUND_TO)) + ", "
             case 2:
-                tracerName += "strike " + str(round(float((coord_list[i].strip())[1:-1])-offset,ROUND_TO)) + ", "
+                tracerName += "strike " + str(round(float((coord_list[i].strip())[1:-1])-OFFSET_TO_CENTER,ROUND_TO)) + ", "
 
     tracerName = tracerName[:-2] + ")"
     return tracerName
@@ -130,7 +191,7 @@ def get_variable_ids(variableListString):
             idRange = entryId.split('-')
             output.extend(range(int(idRange[0])-1,int(idRange[1])))
         elif int(entryId)-1 < variablesAmount:
-            output.append(int(entryId)-1)
+            output.append(int(entryId))
         else:
             print("Discarded id '" + entryId + "' of argument --v, because this id does not exist")
 
@@ -154,8 +215,9 @@ def main():
 
     # Create buttons from list
     for i in range(0, len(tracers)):
-        button = ttk.Button(button_frame, text=get_tracer_name(tracers[i]), command=lambda idx=i: display_tracer_graphs(tracers[idx]))
-        button.pack(fill="x", pady=5, padx=20)
+        if (tracers[i])[0] != negativeBodyOnFault:
+            button = ttk.Button(button_frame, text=get_tracer_name(tracers[i]), command=lambda idx=i: display_tracer_graphs(tracers[idx]))
+            button.pack(fill="x", pady=5, padx=20)
 
     # Start the UI loop
     root.mainloop()
@@ -168,11 +230,9 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Script to convert CSV generated by ExaHyPE2 executions into plots')
     parser.add_argument("--f",               dest="file_name",      type=str,   required=True,  help="Name of the file to be checked, does not need to contain '.csv'" )
-    parser.add_argument("--c",               dest="config_name",    type=str,   default="",   help="Name of the config File that states name of variables")
-    parser.add_argument("--v",               dest="v",              type=str,   default="8,12,3,7,11,2",     help="A comma seperated list of the variables to be plotted (e.g. --v '1-4,8' to plot the first 4 and the 8th )" )
+    parser.add_argument("--v",               dest="v",              type=str,   default="",     help="A comma seperated list of the variables to be plotted (e.g. --v '1-4,8' to plot the first 4 and the 8th )" )
     parser.add_argument("--tmax",            dest="t_max",          type=float, default=None,   help="Minimal time for which data should be plotted" )
     parser.add_argument("--tmin",            dest="t_min",          type=float, default=None,   help="Maximal time for which data should be plotted" )
-    parser.add_argument('--o',               dest="has_offset",     action='store_true',        help='Enable verbose output')
     args = parser.parse_args()
 
     """f
@@ -202,7 +262,31 @@ if __name__ == "__main__":
     remove first row which should only contain metadata
     """
     csvData = csvData[1:-1]
+
+
     tracers = list(dict.fromkeys([tuple(data[i] for i in positionIndexes) for data in csvData]))
+    bodyCoords = list(set(coords[0] for coords in tracers))
+    
+    smallestBody = float('inf')
+    secondSmallestBody = float('inf')
+    for bodyCoord in bodyCoords:
+        if abs(float(bodyCoord)-OFFSET_TO_CENTER) < abs(float(smallestBody)-OFFSET_TO_CENTER):
+            secondSmallestBody = smallestBody
+            smallestBody = bodyCoord
+        elif abs(float(bodyCoord)-OFFSET_TO_CENTER) < abs(float(secondSmallestBody)-OFFSET_TO_CENTER):
+            secondSmallestBody = bodyCoord
+
+    positiveBodyOnFault=""
+    negativeBodyOnFault=""
+    if float(secondSmallestBody) < float(smallestBody):
+        positiveBodyOnFault = smallestBody
+        negativeBodyOnFault = secondSmallestBody
+    else:
+        positiveBodyOnFault = secondSmallestBody
+        negativeBodyOnFault = smallestBody
+    onFaultCoords = [negativeBodyOnFault, positiveBodyOnFault]
+    print(onFaultCoords)
+
     simulationName = (args.file_name.split("/")[-1])[:-4]
     simulationTime = max(float(row[timeIndex]) for row in csvData)
     if args.t_min==None:
@@ -211,16 +295,10 @@ if __name__ == "__main__":
         args.t_max = simulationTime
     xticks = np.arange(0,args.t_max,1)
 
-    varsToPlot = get_variable_ids(args.v)
-
-    # read in variable names
-    varNames = []
-    if args.config_name != "":
-        with open(args.config_name, "r") as config:
-            varNames = config.readlines()
-    
-    for i in range(len(varNames), len(csvData[0])-dataIndex):
-        varNames.append("Variable " + str(i))
+    if args.v != "":
+        varsToPlot = {"on-fault":get_variable_ids(args.v),"off-fault":get_variable_ids(args.v)}
+    else:
+        varsToPlot = SHOW_CONFIG
 
     main()
 
