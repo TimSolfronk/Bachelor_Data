@@ -11,13 +11,14 @@ from tkinter import ttk
 ROW_AMOUNT = 3
 ROUND_TO = 12
 OFFSET_TO_CENTER = 20.
+MAX_ON_FAULT_OFFSET = 1.
 
 NAME_CONFIG = { "on-fault": [
                     "n-slip-rate (x)",
                     "v-slip-rate (y)",
                     "h-slip-rate (z)",
-                    "σ_xx",
-                    "σ_yy",
+                    "n_stress (σ_xx)",
+                    "v_stress (σ_yy)",
                     "σ_zz",
                     "v-shear-stress (σ_xy)",
                     "h-shear-stress (σ_xz)",
@@ -29,8 +30,8 @@ NAME_CONFIG = { "on-fault": [
                     "n-vel (x)",
                     "v-vel (y)",
                     "h-vel (z)",
-                    "σ_xx",
-                    "σ_yy",
+                    "n_stress (σ_xx)",
+                    "v_stress (σ_yy)",
                     "σ_zz",
                     "v-shear-stress (σ_xy)",
                     "h-shear-stress (σ_xz)",
@@ -39,26 +40,86 @@ NAME_CONFIG = { "on-fault": [
                     "v-displacement (y)",
                     "h-displacement (z)"]}
 
-SHOW_CONFIG = { "on-fault": [
-                    7,
-                    11,
-                    2,
-                    6,
-                    10,
-                    1
-                ],
-                "off-fault": [
-                    11,
-                    2,
-                    9,
-                    0,
-                    10,
-                    1
-                ]
+ON_FAULT_SUB = [True,True,True,False,False,False,False,False,False,True,True,True]
 
+SCENARIOS_SHOW_CONFIG = {
+    "tpv5": { 
+        "on-fault": [
+            7,
+            11,
+            2,
+            6,
+            10,
+            1
+        ],
+        "off-fault": [
+            11,
+            2,
+            9,
+            0,
+            10,
+            1
+        ]
+    },
+    "tpv26":{
+        "on-fault": [
+            7,
+            11,
+            2,
+            3,
+            6,
+            10,
+            1
+        ],
+        "off-fault": [
+            11,
+            2,
+            9,
+            0,
+            10,
+            1
+        ]
+    },
+    "tpv28":{
+        "on-fault": [
+            7,
+            11,
+            2,
+            3,
+            6,
+            10,
+            1
+        ],
+        "off-fault": [
+            11,
+            2,
+            9,
+            0,
+            10,
+            1
+        ]
+    },
+    "tpv29":{
+        "on-fault": [
+            7,
+            11,
+            2,
+            3,
+            6,
+            10,
+            1
+        ],
+        "off-fault": [
+            11,
+            2,
+            9,
+            0,
+            10,
+            1
+        ]
+    }
 }
 
-ON_FAULT_SUB = [True,True,True,False,False,False,False,False,False,True,True,True]
 
 
 
@@ -127,8 +188,8 @@ def display_tracer_graphs(tracerPos):
     csvDataForTracer = get_all_tracer_data(csvData,tracerPos)
     faultStatus = "off-fault"
 
-    if tracerPos[0] == positiveBodyOnFault: 
-        csvDataSub = get_all_tracer_data(csvData, (negativeBodyOnFault,tracerPos[1],tracerPos[2]))
+    if not is_off_fault(tracerPos) and is_on_far_side(tracerPos): 
+        csvDataSub = get_all_tracer_data(csvData, get_other_side_on_fault_tracers(tracerPos)[0])
         faultStatus = "on-fault"
         dataLength = min(len(csvDataForTracer), len(csvDataSub))
         csvDataForTracer = csvDataForTracer[:dataLength]
@@ -168,7 +229,7 @@ def get_tracer_name(tracerPos):
     for i in range(len(coord_list)):
         match i:
             case 0:
-                if (coord_list[i].strip())[1:-1] != positiveBodyOnFault:
+                if is_off_fault(tracerPos):
                     tracerName += "body " + str(round(float((coord_list[i].strip())[1:-1])-OFFSET_TO_CENTER,ROUND_TO)) + ", "
             case 1:
                 tracerName += "dip " + str(round(float((coord_list[i].strip())[1:-1]),ROUND_TO)) + ", "
@@ -197,10 +258,22 @@ def get_variable_ids(variableListString):
 
     return output
 
+def is_off_fault(tracerPos):
+    return abs(float(tracerPos[0])-OFFSET_TO_CENTER) > MAX_ON_FAULT_OFFSET or get_other_side_on_fault_tracers(tracerPos) == []
+
+def is_on_far_side(tracerPos):
+    possibleOtherSide = get_other_side_on_fault_tracers(tracerPos)
+    return float(tracerPos[0]) > float(possibleOtherSide[0][0])
+
+def get_other_side_on_fault_tracers(tracerPos):
+    possibleOtherSide = []
+    for tracer in tracers:
+        if tracer[1] == tracerPos[1] and tracer[2] == tracerPos[2] and tracer[0] != tracerPos[0] and abs(float(tracer[0])-OFFSET_TO_CENTER) <= MAX_ON_FAULT_OFFSET:
+            possibleOtherSide.append(tracer)
+    return possibleOtherSide
+
 
 def main():
-    #display_tracer_graphs(tracers[0])
-    
     root = tk.Tk()
     root.title(simulationName)
     root.geometry("400x500")
@@ -209,19 +282,52 @@ def main():
     header = ttk.Label(root, text="Choose a tracer:", font=("Arial", 16, "bold"))
     header.pack(pady=10)
 
-    # Create a frame for buttons
-    button_frame = ttk.Frame(root)
-    button_frame.pack(pady=10)
+    # Scrollable Frame Setup 
+    container = ttk.Frame(root)
+    container.pack(fill="both", expand=True)
+
+    canvas = tk.Canvas(container)
+    scrollbar = ttk.Scrollbar(container, orient="vertical", command=canvas.yview)
+
+    scrollable_frame = ttk.Frame(canvas)
+
+    scrollable_frame.bind(
+        "<Configure>",
+        lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+    )
+
+    canvas.create_window((0, 0), window=scrollable_frame, anchor="n")
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    canvas.pack(side="left", fill="both", expand=True)
+    scrollbar.pack(side="right", fill="y")
 
     # Create buttons from list
     for i in range(0, len(tracers)):
-        if (tracers[i])[0] != negativeBodyOnFault:
-            button = ttk.Button(button_frame, text=get_tracer_name(tracers[i]), command=lambda idx=i: display_tracer_graphs(tracers[idx]))
+        if is_off_fault(tracers[i]) or is_on_far_side(tracers[i]):
+            button = ttk.Button(scrollable_frame, text=get_tracer_name(tracers[i]), command=lambda idx=i: display_tracer_graphs(tracers[idx]))
             button.pack(fill="x", pady=5, padx=20)
+
+    # Enable mouse wheel scrolling
+    def _on_mousewheel(event):
+        #Linux
+        if event.num == 5 or event.delta < 0:
+            canvas.yview_scroll(1, "units")
+        elif event.num == 4 or event.delta > 0:
+            canvas.yview_scroll(-1, "units")
+
+        #Windows
+        canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+
+    # Windows
+    canvas.bind_all("<MouseWheel>", _on_mousewheel)
+
+    # Linux
+    canvas.bind_all("<Button-4>", _on_mousewheel)
+    canvas.bind_all("<Button-5>", _on_mousewheel)
 
     # Start the UI loop
     root.mainloop()
-
 
 if __name__ == "__main__":
     """
@@ -230,6 +336,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Script to convert CSV generated by ExaHyPE2 executions into plots')
     parser.add_argument("--f",               dest="file_name",      type=str,   required=True,  help="Name of the file to be checked, does not need to contain '.csv'" )
+    parser.add_argument("--s",               dest="scenario",       type=str,   required=True,  help="Name of the scenario (needed to show only important data)", choices=SCENARIOS_SHOW_CONFIG.keys() )
     parser.add_argument("--v",               dest="v",              type=str,   default="",     help="A comma seperated list of the variables to be plotted (e.g. --v '1-4,8' to plot the first 4 and the 8th )" )
     parser.add_argument("--tmax",            dest="t_max",          type=float, default=None,   help="Minimal time for which data should be plotted" )
     parser.add_argument("--tmin",            dest="t_min",          type=float, default=None,   help="Maximal time for which data should be plotted" )
@@ -276,17 +383,6 @@ if __name__ == "__main__":
         elif abs(float(bodyCoord)-OFFSET_TO_CENTER) < abs(float(secondSmallestBody)-OFFSET_TO_CENTER):
             secondSmallestBody = bodyCoord
 
-    positiveBodyOnFault=""
-    negativeBodyOnFault=""
-    if float(secondSmallestBody) < float(smallestBody):
-        positiveBodyOnFault = smallestBody
-        negativeBodyOnFault = secondSmallestBody
-    else:
-        positiveBodyOnFault = secondSmallestBody
-        negativeBodyOnFault = smallestBody
-    onFaultCoords = [negativeBodyOnFault, positiveBodyOnFault]
-    print(onFaultCoords)
-
     simulationName = (args.file_name.split("/")[-1])[:-4]
     simulationTime = max(float(row[timeIndex]) for row in csvData)
     if args.t_min==None:
@@ -298,7 +394,7 @@ if __name__ == "__main__":
     if args.v != "":
         varsToPlot = {"on-fault":get_variable_ids(args.v),"off-fault":get_variable_ids(args.v)}
     else:
-        varsToPlot = SHOW_CONFIG
+        varsToPlot = SCENARIOS_SHOW_CONFIG.get(args.scenario)
 
     main()
 

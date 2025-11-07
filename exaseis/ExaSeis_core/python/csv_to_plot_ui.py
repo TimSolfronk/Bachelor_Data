@@ -12,8 +12,6 @@ ROW_AMOUNT = 3
 ROUND_TO = 12
 
 
-
-
 """
 Filter out only the data from tracers at the specified positions
 """
@@ -138,7 +136,7 @@ def get_variable_ids(variableListString):
 
 
 def main():
-    #display_tracer_graphs(tracers[0])
+    '''#display_tracer_graphs(tracers[0])
     
     root = tk.Tk()
     root.title(simulationName)
@@ -156,6 +154,61 @@ def main():
     for i in range(0, len(tracers)):
         button = ttk.Button(button_frame, text=get_tracer_name(tracers[i]), command=lambda idx=i: display_tracer_graphs(tracers[idx]))
         button.pack(fill="x", pady=5, padx=20)
+
+    # Start the UI loop
+    root.mainloop()'''
+    #display_tracer_graphs(tracers[0])
+    
+    root = tk.Tk()
+    root.title(simulationName)
+    root.geometry("400x500")
+
+    # Header label
+    header = ttk.Label(root, text="Choose a tracer:", font=("Arial", 16, "bold"))
+    header.pack(pady=10)
+
+    # Scrollable Frame Setup 
+    container = ttk.Frame(root)
+    container.pack(fill="both", expand=True)
+
+    canvas = tk.Canvas(container)
+    scrollbar = ttk.Scrollbar(container, orient="vertical", command=canvas.yview)
+
+    scrollable_frame = ttk.Frame(canvas)
+
+    scrollable_frame.bind(
+        "<Configure>",
+        lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+    )
+
+    canvas.create_window((0, 0), window=scrollable_frame, anchor="n")
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    canvas.pack(side="left", fill="both", expand=True)
+    scrollbar.pack(side="right", fill="y")
+
+    # Create buttons from list
+    for i in range(0, len(tracers)):
+        button = ttk.Button(scrollable_frame, text=get_tracer_name(tracers[i]), command=lambda idx=i: display_tracer_graphs(tracers[idx]))
+        button.pack(fill="x", pady=5, padx=20)
+
+    # Enable mouse wheel scrolling
+    def _on_mousewheel(event):
+        #Linux
+        if event.num == 5 or event.delta < 0:
+            canvas.yview_scroll(1, "units")
+        elif event.num == 4 or event.delta > 0:
+            canvas.yview_scroll(-1, "units")
+
+        #Windows
+        canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+
+    # Windows
+    canvas.bind_all("<MouseWheel>", _on_mousewheel)
+
+    # Linux
+    canvas.bind_all("<Button-4>", _on_mousewheel)
+    canvas.bind_all("<Button-5>", _on_mousewheel)
 
     # Start the UI loop
     root.mainloop()
