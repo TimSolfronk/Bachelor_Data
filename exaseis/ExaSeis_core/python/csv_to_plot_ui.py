@@ -179,6 +179,14 @@ def get_tracer_name(tracerPos):
                 tracerName += "strike " + str(round(float((coord_list[i].strip())[1:-1])-offset,ROUND_TO)) + ", "
 
     tracerName = tracerName[:-2] + ")"
+
+    # output cartesian tracer body position and compare with curvi body position:
+    #print(str(round(float((coord_list[0].strip())[1:-1]),ROUND_TO)) + " = " + str(float(get_all_tracer_data(csvData,tracerPos)[0][-3])))
+    
+    # print curve grid body position:
+    #if round(float((coord_list[1].strip())[1:-1]),0) == 0.0 and round(float((coord_list[2].strip())[1:-1]),0) == 8.0:
+        #print(str(get_all_tracer_data(csvData,tracerPos)[0][-3]) + " = " + str(float(get_all_tracer_data(csvData,tracerPos)[0][-3])))
+
     return tracerName
 
 def get_variable_ids(variableListString):
