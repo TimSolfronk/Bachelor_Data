@@ -111,6 +111,15 @@ void ContextDynamicRupture<Shortcuts, basisSize, numberOfVariables, numberOfPara
     f_T = 1.0;
   }
   
+
+  //ADDED ---------------------------------------------------------------
+  T tol = 1e-7;
+  if(-tol<x[0] && x[0]<tol && (x[1] > 0 || x[1] < -15.0 || x[2]-f_cz > f_wz || x[2]-f_cz < -f_wz))
+  {
+    mu_s = 10000;
+  }
+  //ADDED END ----------------------------------------------------------
+
   // friction coefficient
   T fric_coeff = mu_s - (mu_s-mu_d) * std::max<T>(f_T,std::min(S,d_c)/d_c);     
 
