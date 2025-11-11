@@ -1,0 +1,442 @@
+# on-fault at surface (3)
+[18.0, 0.0,  5.0],
+[18.2, 0.0,  5.0],
+[18.4, 0.0,  5.0],
+[18.6, 0.0,  5.0],
+[18.8, 0.0,  5.0],
+[19.0, 0.0,  5.0],
+[19.2, 0.0,  5.0],
+[19.4, 0.0,  5.0],
+[19.6, 0.0,  5.0],
+[19.8, 0.0,  5.0],
+[20.0, 0.0,  5.0],
+[20.2, 0.0,  5.0],
+[20.4, 0.0,  5.0],
+[20.6, 0.0,  5.0],
+[20.8, 0.0,  5.0],
+[21.0, 0.0,  5.0],
+[21.2, 0.0,  5.0],
+[21.4, 0.0,  5.0],
+[21.6, 0.0,  5.0],
+[21.8, 0.0,  5.0],
+[22.0, 0.0,  5.0],
+
+[18.0, 0.0, 20.0], #surface above fault hypocenter
+[18.2, 0.0, 20.0], #surface above fault hypocenter
+[18.4, 0.0, 20.0], #surface above fault hypocenter
+[18.6, 0.0, 20.0], #surface above fault hypocenter
+[18.8, 0.0, 20.0], #surface above fault hypocenter
+[19.0, 0.0, 20.0], #surface above fault hypocenter
+[19.2, 0.0, 20.0], #surface above fault hypocenter
+[19.4, 0.0, 20.0], #surface above fault hypocenter
+[19.6, 0.0, 20.0], #surface above fault hypocenter
+[19.8, 0.0, 20.0], #surface above fault hypocenter
+[20.0, 0.0, 20.0], #surface above fault hypocenter
+[20.2, 0.0, 20.0], #surface above fault hypocenter
+[20.4, 0.0, 20.0], #surface above fault hypocenter
+[20.6, 0.0, 20.0], #surface above fault hypocenter
+[20.8, 0.0, 20.0], #surface above fault hypocenter
+[21.0, 0.0, 20.0], #surface above fault hypocenter
+[21.2, 0.0, 20.0], #surface above fault hypocenter
+[21.4, 0.0, 20.0], #surface above fault hypocenter
+[21.6, 0.0, 20.0], #surface above fault hypocenter
+[21.8, 0.0, 20.0], #surface above fault hypocenter
+[22.0, 0.0, 20.0], #surface above fault hypocenter
+
+[18.0, 0.0, 35.0],
+[18.2, 0.0, 35.0],
+[18.4, 0.0, 35.0],
+[18.6, 0.0, 35.0],
+[18.8, 0.0, 35.0],
+[19.0, 0.0, 35.0],
+[19.2, 0.0, 35.0],
+[19.4, 0.0, 35.0],
+[19.6, 0.0, 35.0],
+[19.8, 0.0, 35.0],
+[20.0, 0.0, 35.0],
+[20.2, 0.0, 35.0],
+[20.4, 0.0, 35.0],
+[20.6, 0.0, 35.0],
+[20.8, 0.0, 35.0],
+[21.0, 0.0, 35.0],
+[21.2, 0.0, 35.0],
+[21.4, 0.0, 35.0],
+[21.6, 0.0, 35.0],
+[21.8, 0.0, 35.0],
+[22.0, 0.0, 35.0],
+
+#on-fault, general (21)
+[18.0,  6.0,  9.5], #above left patch center
+[18.2,  6.0,  9.5], #above left patch center
+[18.4,  6.0,  9.5], #above left patch center
+[18.6,  6.0,  9.5], #above left patch center
+[18.8,  6.0,  9.5], #above left patch center
+[19.0,  6.0,  9.5], #above left patch center
+[19.2,  6.0,  9.5], #above left patch center
+[19.4,  6.0,  9.5], #above left patch center
+[19.6,  6.0,  9.5], #above left patch center
+[19.8,  6.0,  9.5], #above left patch center
+[20.0,  6.0,  9.5], #above left patch center
+[20.2,  6.0,  9.5], #above left patch center
+[20.4,  6.0,  9.5], #above left patch center
+[20.6,  6.0,  9.5], #above left patch center
+[20.8,  6.0,  9.5], #above left patch center
+[21.0,  6.0,  9.5], #above left patch center
+[21.2,  6.0,  9.5], #above left patch center
+[21.4,  6.0,  9.5], #above left patch center
+[21.6,  6.0,  9.5], #above left patch center
+[21.8,  6.0,  9.5], #above left patch center
+[22.0,  6.0,  9.5], #above left patch center
+
+[18.0,  7.5,  5.0],
+[18.2,  7.5,  5.0],
+[18.4,  7.5,  5.0],
+[18.6,  7.5,  5.0],
+[18.8,  7.5,  5.0],
+[19.0,  7.5,  5.0],
+[19.2,  7.5,  5.0],
+[19.4,  7.5,  5.0],
+[19.6,  7.5,  5.0],
+[19.8,  7.5,  5.0],
+[20.0,  7.5,  5.0],
+[20.2,  7.5,  5.0],
+[20.4,  7.5,  5.0],
+[20.6,  7.5,  5.0],
+[20.8,  7.5,  5.0],
+[21.0,  7.5,  5.0],
+[21.2,  7.5,  5.0],
+[21.4,  7.5,  5.0],
+[21.6,  7.5,  5.0],
+[21.8,  7.5,  5.0],
+[22.0,  7.5,  5.0],
+
+[18.0,  7.5,  8.0],
+[18.2,  7.5,  8.0],
+[18.4,  7.5,  8.0],
+[18.6,  7.5,  8.0],
+[18.8,  7.5,  8.0],
+[19.0,  7.5,  8.0],
+[19.2,  7.5,  8.0],
+[19.4,  7.5,  8.0],
+[19.6,  7.5,  8.0],
+[19.8,  7.5,  8.0],
+[20.0,  7.5,  8.0],
+[20.2,  7.5,  8.0],
+[20.4,  7.5,  8.0],
+[20.6,  7.5,  8.0],
+[20.8,  7.5,  8.0],
+[21.0,  7.5,  8.0],
+[21.2,  7.5,  8.0],
+[21.4,  7.5,  8.0],
+[21.6,  7.5,  8.0],
+[21.8,  7.5,  8.0],
+[22.0,  7.5,  8.0],
+
+[18.0,  7.5,  9.5], #center of left patch
+[18.2,  7.5,  9.5], #center of left patch
+[18.4,  7.5,  9.5], #center of left patch
+[18.6,  7.5,  9.5], #center of left patch
+[18.8,  7.5,  9.5], #center of left patch
+[19.0,  7.5,  9.5], #center of left patch
+[19.2,  7.5,  9.5], #center of left patch
+[19.4,  7.5,  9.5], #center of left patch
+[19.6,  7.5,  9.5], #center of left patch
+[19.8,  7.5,  9.5], #center of left patch
+[20.0,  7.5,  9.5], #center of left patch
+[20.2,  7.5,  9.5], #center of left patch
+[20.4,  7.5,  9.5], #center of left patch
+[20.6,  7.5,  9.5], #center of left patch
+[20.8,  7.5,  9.5], #center of left patch
+[21.0,  7.5,  9.5], #center of left patch
+[21.2,  7.5,  9.5], #center of left patch
+[21.4,  7.5,  9.5], #center of left patch
+[21.6,  7.5,  9.5], #center of left patch
+[21.8,  7.5,  9.5], #center of left patch
+[22.0,  7.5,  9.5], #center of left patch
+
+[18.0,  7.5, 11.0],
+[18.2,  7.5, 11.0],
+[18.4,  7.5, 11.0],
+[18.6,  7.5, 11.0],
+[18.8,  7.5, 11.0],
+[19.0,  7.5, 11.0],
+[19.2,  7.5, 11.0],
+[19.4,  7.5, 11.0],
+[19.6,  7.5, 11.0],
+[19.8,  7.5, 11.0],
+[20.0,  7.5, 11.0],
+[20.2,  7.5, 11.0],
+[20.4,  7.5, 11.0],
+[20.6,  7.5, 11.0],
+[20.8,  7.5, 11.0],
+[21.0,  7.5, 11.0],
+[21.2,  7.5, 11.0],
+[21.4,  7.5, 11.0],
+[21.6,  7.5, 11.0],
+[21.8,  7.5, 11.0],
+[22.0,  7.5, 11.0],
+
+[18.0,  7.5, 14.0],
+[18.2,  7.5, 14.0],
+[18.4,  7.5, 14.0],
+[18.6,  7.5, 14.0],
+[18.8,  7.5, 14.0],
+[19.0,  7.5, 14.0],
+[19.2,  7.5, 14.0],
+[19.4,  7.5, 14.0],
+[19.6,  7.5, 14.0],
+[19.8,  7.5, 14.0],
+[20.0,  7.5, 14.0],
+[20.2,  7.5, 14.0],
+[20.4,  7.5, 14.0],
+[20.6,  7.5, 14.0],
+[20.8,  7.5, 14.0],
+[21.0,  7.5, 14.0],
+[21.2,  7.5, 14.0],
+[21.4,  7.5, 14.0],
+[21.6,  7.5, 14.0],
+[21.8,  7.5, 14.0],
+[22.0,  7.5, 14.0],
+
+[18.0,  9.0,  9.5], #below left patch center
+[18.2,  9.0,  9.5], #below left patch center
+[18.4,  9.0,  9.5], #below left patch center
+[18.6,  9.0,  9.5], #below left patch center
+[18.8,  9.0,  9.5], #below left patch center
+[19.0,  9.0,  9.5], #below left patch center
+[19.2,  9.0,  9.5], #below left patch center
+[19.4,  9.0,  9.5], #below left patch center
+[19.6,  9.0,  9.5], #below left patch center
+[19.8,  9.0,  9.5], #below left patch center
+[20.0,  9.0,  9.5], #below left patch center
+[20.2,  9.0,  9.5], #below left patch center
+[20.4,  9.0,  9.5], #below left patch center
+[20.6,  9.0,  9.5], #below left patch center
+[20.8,  9.0,  9.5], #below left patch center
+[21.0,  9.0,  9.5], #below left patch center
+[21.2,  9.0,  9.5], #below left patch center
+[21.4,  9.0,  9.5], #below left patch center
+[21.6,  9.0,  9.5], #below left patch center
+[21.8,  9.0,  9.5], #below left patch center
+[22.0,  9.0,  9.5], #below left patch center
+
+[18.0,  3.0, 20.0], #above fault hypocenter
+[18.2,  3.0, 20.0], #above fault hypocenter
+[18.4,  3.0, 20.0], #above fault hypocenter
+[18.6,  3.0, 20.0], #above fault hypocenter
+[18.8,  3.0, 20.0], #above fault hypocenter
+[19.0,  3.0, 20.0], #above fault hypocenter
+[19.2,  3.0, 20.0], #above fault hypocenter
+[19.4,  3.0, 20.0], #above fault hypocenter
+[19.6,  3.0, 20.0], #above fault hypocenter
+[19.8,  3.0, 20.0], #above fault hypocenter
+[20.0,  3.0, 20.0], #above fault hypocenter
+[20.2,  3.0, 20.0], #above fault hypocenter
+[20.4,  3.0, 20.0], #above fault hypocenter
+[20.6,  3.0, 20.0], #above fault hypocenter
+[20.8,  3.0, 20.0], #above fault hypocenter
+[21.0,  3.0, 20.0], #above fault hypocenter
+[21.2,  3.0, 20.0], #above fault hypocenter
+[21.4,  3.0, 20.0], #above fault hypocenter
+[21.6,  3.0, 20.0], #above fault hypocenter
+[21.8,  3.0, 20.0], #above fault hypocenter
+[22.0,  3.0, 20.0], #above fault hypocenter
+
+[18.0,  7.5, 20.0], #on fault hypocenter
+[18.2,  7.5, 20.0], #on fault hypocenter
+[18.4,  7.5, 20.0], #on fault hypocenter
+[18.6,  7.5, 20.0], #on fault hypocenter
+[18.8,  7.5, 20.0], #on fault hypocenter
+[19.0,  7.5, 20.0], #on fault hypocenter
+[19.2,  7.5, 20.0], #on fault hypocenter
+[19.4,  7.5, 20.0], #on fault hypocenter
+[19.6,  7.5, 20.0], #on fault hypocenter
+[19.8,  7.5, 20.0], #on fault hypocenter
+[20.0,  7.5, 20.0], #on fault hypocenter
+[20.2,  7.5, 20.0], #on fault hypocenter
+[20.4,  7.5, 20.0], #on fault hypocenter
+[20.6,  7.5, 20.0], #on fault hypocenter
+[20.8,  7.5, 20.0], #on fault hypocenter
+[21.0,  7.5, 20.0], #on fault hypocenter
+[21.2,  7.5, 20.0], #on fault hypocenter
+[21.4,  7.5, 20.0], #on fault hypocenter
+[21.6,  7.5, 20.0], #on fault hypocenter
+[21.8,  7.5, 20.0], #on fault hypocenter
+[22.0,  7.5, 20.0], #on fault hypocenter
+
+[18.0, 12.0, 20.0], #below fault hypocenter
+[18.2, 12.0, 20.0], #below fault hypocenter
+[18.4, 12.0, 20.0], #below fault hypocenter
+[18.6, 12.0, 20.0], #below fault hypocenter
+[18.8, 12.0, 20.0], #below fault hypocenter
+[19.0, 12.0, 20.0], #below fault hypocenter
+[19.2, 12.0, 20.0], #below fault hypocenter
+[19.4, 12.0, 20.0], #below fault hypocenter
+[19.6, 12.0, 20.0], #below fault hypocenter
+[19.8, 12.0, 20.0], #below fault hypocenter
+[20.0, 12.0, 20.0], #below fault hypocenter
+[20.2, 12.0, 20.0], #below fault hypocenter
+[20.4, 12.0, 20.0], #below fault hypocenter
+[20.6, 12.0, 20.0], #below fault hypocenter
+[20.8, 12.0, 20.0], #below fault hypocenter
+[21.0, 12.0, 20.0], #below fault hypocenter
+[21.2, 12.0, 20.0], #below fault hypocenter
+[21.4, 12.0, 20.0], #below fault hypocenter
+[21.6, 12.0, 20.0], #below fault hypocenter
+[21.8, 12.0, 20.0], #below fault hypocenter
+[22.0, 12.0, 20.0], #below fault hypocenter
+
+[18.0,  6.0, 30.5], #above right patch center
+[18.2,  6.0, 30.5], #above right patch center
+[18.4,  6.0, 30.5], #above right patch center
+[18.6,  6.0, 30.5], #above right patch center
+[18.8,  6.0, 30.5], #above right patch center
+[19.0,  6.0, 30.5], #above right patch center
+[19.2,  6.0, 30.5], #above right patch center
+[19.4,  6.0, 30.5], #above right patch center
+[19.6,  6.0, 30.5], #above right patch center
+[19.8,  6.0, 30.5], #above right patch center
+[20.0,  6.0, 30.5], #above right patch center
+[20.2,  6.0, 30.5], #above right patch center
+[20.4,  6.0, 30.5], #above right patch center
+[20.6,  6.0, 30.5], #above right patch center
+[20.8,  6.0, 30.5], #above right patch center
+[21.0,  6.0, 30.5], #above right patch center
+[21.2,  6.0, 30.5], #above right patch center
+[21.4,  6.0, 30.5], #above right patch center
+[21.6,  6.0, 30.5], #above right patch center
+[21.8,  6.0, 30.5], #above right patch center
+[22.0,  6.0, 30.5], #above right patch center
+
+[18.0,  7.5, 26.0],
+[18.2,  7.5, 26.0],
+[18.4,  7.5, 26.0],
+[18.6,  7.5, 26.0],
+[18.8,  7.5, 26.0],
+[19.0,  7.5, 26.0],
+[19.2,  7.5, 26.0],
+[19.4,  7.5, 26.0],
+[19.6,  7.5, 26.0],
+[19.8,  7.5, 26.0],
+[20.0,  7.5, 26.0],
+[20.2,  7.5, 26.0],
+[20.4,  7.5, 26.0],
+[20.6,  7.5, 26.0],
+[20.8,  7.5, 26.0],
+[21.0,  7.5, 26.0],
+[21.2,  7.5, 26.0],
+[21.4,  7.5, 26.0],
+[21.6,  7.5, 26.0],
+[21.8,  7.5, 26.0],
+[22.0,  7.5, 26.0],
+
+[18.0,  7.5, 29.0],
+[18.2,  7.5, 29.0],
+[18.4,  7.5, 29.0],
+[18.6,  7.5, 29.0],
+[18.8,  7.5, 29.0],
+[19.0,  7.5, 29.0],
+[19.2,  7.5, 29.0],
+[19.4,  7.5, 29.0],
+[19.6,  7.5, 29.0],
+[19.8,  7.5, 29.0],
+[20.0,  7.5, 29.0],
+[20.2,  7.5, 29.0],
+[20.4,  7.5, 29.0],
+[20.6,  7.5, 29.0],
+[20.8,  7.5, 29.0],
+[21.0,  7.5, 29.0],
+[21.2,  7.5, 29.0],
+[21.4,  7.5, 29.0],
+[21.6,  7.5, 29.0],
+[21.8,  7.5, 29.0],
+[22.0,  7.5, 29.0],
+
+[18.0,  7.5, 30.5], #center of right patch
+[18.2,  7.5, 30.5], #center of right patch
+[18.4,  7.5, 30.5], #center of right patch
+[18.6,  7.5, 30.5], #center of right patch
+[18.8,  7.5, 30.5], #center of right patch
+[19.0,  7.5, 30.5], #center of right patch
+[19.2,  7.5, 30.5], #center of right patch
+[19.4,  7.5, 30.5], #center of right patch
+[19.6,  7.5, 30.5], #center of right patch
+[19.8,  7.5, 30.5], #center of right patch
+[20.0,  7.5, 30.5], #center of right patch
+[20.2,  7.5, 30.5], #center of right patch
+[20.4,  7.5, 30.5], #center of right patch
+[20.6,  7.5, 30.5], #center of right patch
+[20.8,  7.5, 30.5], #center of right patch
+[21.0,  7.5, 30.5], #center of right patch
+[21.2,  7.5, 30.5], #center of right patch
+[21.4,  7.5, 30.5], #center of right patch
+[21.6,  7.5, 30.5], #center of right patch
+[21.8,  7.5, 30.5], #center of right patch
+[22.0,  7.5, 30.5], #center of right patch
+
+[18.0,  7.5, 32.0],
+[18.2,  7.5, 32.0],
+[18.4,  7.5, 32.0],
+[18.6,  7.5, 32.0],
+[18.8,  7.5, 32.0],
+[19.0,  7.5, 32.0],
+[19.2,  7.5, 32.0],
+[19.4,  7.5, 32.0],
+[19.6,  7.5, 32.0],
+[19.8,  7.5, 32.0],
+[20.0,  7.5, 32.0],
+[20.2,  7.5, 32.0],
+[20.4,  7.5, 32.0],
+[20.6,  7.5, 32.0],
+[20.8,  7.5, 32.0],
+[21.0,  7.5, 32.0],
+[21.2,  7.5, 32.0],
+[21.4,  7.5, 32.0],
+[21.6,  7.5, 32.0],
+[21.8,  7.5, 32.0],
+[22.0,  7.5, 32.0],
+
+[18.0,  7.5, 35.0],
+[18.2,  7.5, 35.0],
+[18.4,  7.5, 35.0],
+[18.6,  7.5, 35.0],
+[18.8,  7.5, 35.0],
+[19.0,  7.5, 35.0],
+[19.2,  7.5, 35.0],
+[19.4,  7.5, 35.0],
+[19.6,  7.5, 35.0],
+[19.8,  7.5, 35.0],
+[20.0,  7.5, 35.0],
+[20.2,  7.5, 35.0],
+[20.4,  7.5, 35.0],
+[20.6,  7.5, 35.0],
+[20.8,  7.5, 35.0],
+[21.0,  7.5, 35.0],
+[21.2,  7.5, 35.0],
+[21.4,  7.5, 35.0],
+[21.6,  7.5, 35.0],
+[21.8,  7.5, 35.0],
+[22.0,  7.5, 35.0],
+
+[18.0,  9.0, 30.5],  #below right patch center
+[18.2,  9.0, 30.5],  #below right patch center
+[18.4,  9.0, 30.5],  #below right patch center
+[18.6,  9.0, 30.5],  #below right patch center
+[18.8,  9.0, 30.5],  #below right patch center
+[19.0,  9.0, 30.5],  #below right patch center
+[19.2,  9.0, 30.5],  #below right patch center
+[19.4,  9.0, 30.5],  #below right patch center
+[19.6,  9.0, 30.5],  #below right patch center
+[19.8,  9.0, 30.5],  #below right patch center
+[20.0,  9.0, 30.5],  #below right patch center
+[20.2,  9.0, 30.5],  #below right patch center
+[20.4,  9.0, 30.5],  #below right patch center
+[20.6,  9.0, 30.5],  #below right patch center
+[20.8,  9.0, 30.5],  #below right patch center
+[21.0,  9.0, 30.5],  #below right patch center
+[21.2,  9.0, 30.5],  #below right patch center
+[21.4,  9.0, 30.5],  #below right patch center
+[21.6,  9.0, 30.5],  #below right patch center
+[21.8,  9.0, 30.5],  #below right patch center
+[22.0,  9.0, 30.5],  #below right patch center
+
