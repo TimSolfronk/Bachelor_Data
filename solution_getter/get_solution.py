@@ -8,7 +8,7 @@ import sys
 # The URL of the page with the form
 STRIKE_URL = "https://strike.scec.org/cvws/cgi-bin/cvws.cgi"
 scenario_name = "tpv5"
-reference_name = "daub"
+reference_name = "barall"
 
 PUB_AREA_CODE = "G0012"
 SCENARIOS_CODE = "G1045"
@@ -38,11 +38,18 @@ def get_all_possible_options(option_code):
 def format_data_line(tracer_id, tracer_pos, cur_line_data: str):
     # TODO: Format properly
     line = str(tracer_id)+",0"
+    data_entries = cur_line_data.strip().split(" ")
+    
+    line += "," + data_entries[0].strip()
+    
     for coord in tracer_pos:
         line += "," + str(coord)
-    for data_point in cur_line_data.split(" "):
-        line += "," + data_point.strip()
-    return line
+    for i in range(1,len(data_entries)):
+        if data_entries[i] == "":
+            continue
+        line += "," + data_entries[i].strip()
+
+    return line + "\n"
 
 def get_single_coordinate(tracer_name):
     if tracer_name.startswith("-"):
@@ -109,27 +116,25 @@ except:
 
 tracer_names = get_all_possible_options(RAW_DATA_CODE)
 
-data = ["number(0), number(1), t, x(0), x(1), x(2), data"]
-for i in range(0,len(tracer_names)):
-    if i == 1:
-       for n in range (0,10):
-           print(data[n])
-       sys.exit(1)
-    raw_data_button = driver.find_element(By.NAME,RAW_DATA_CODE + tracer_names[i])
-    raw_data_button.click()
-    time.sleep(1)
-    raw_data = driver.find_element(By.TAG_NAME, "pre").text
-    raw_data_lines = raw_data[raw_data.find("\nt ")+1:].split("\n")
-    raw_data_lable = raw_data_lines[0]
-    tracer_pos = get_tracer_pos(tracer_names[i])
+with open(scenario_name.upper() + "_ref_" + reference_name + ".csv", "w") as output_file:
+    
+    output_file.write("number(0), number(1), t, x(0), x(1), x(2), data \n")
+    for i in range(0,len(tracer_names)):
+        raw_data_button = driver.find_element(By.NAME,RAW_DATA_CODE + tracer_names[i])
+        raw_data_button.click()
+        time.sleep(1)
+        raw_data = driver.find_element(By.TAG_NAME, "pre").text
+        raw_data_lines = raw_data[raw_data.find("\nt ")+1:].split("\n")
+        raw_data_lable = raw_data_lines[0]
+        tracer_pos = get_tracer_pos(tracer_names[i])
 
-    for j in range(1,len(raw_data_lines)):
-        if raw_data_lines[j].startswith("#"):
-            continue
-        data.append(format_data_line(i,tracer_pos,raw_data_lines[j]))
+        for j in range(1,len(raw_data_lines)):
+            if raw_data_lines[j].startswith("#"):
+                continue
+            output_file.write(format_data_line(i,tracer_pos,raw_data_lines[j]))
 
-    driver.back()
-    time.sleep(0.5)
+        driver.back()
+        time.sleep(0.5)
 
 #print(tracer_names)
 

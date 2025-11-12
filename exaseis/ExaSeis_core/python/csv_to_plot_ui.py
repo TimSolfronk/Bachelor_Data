@@ -75,7 +75,12 @@ SCENARIO_CONFIGS = {
             0,
             1,
             2
-    ], NAME_CONFIGS["loh"],False]
+    ], NAME_CONFIGS["loh"],False],
+    "custom":[[
+            0,
+            1,
+            2,
+    ], NAME_CONFIGS["tpv"],True]
 }
 
 """
@@ -182,6 +187,7 @@ def get_tracer_name(tracerPos):
 
     # output cartesian tracer body position and compare with curvi body position:
     #print(str(round(float((coord_list[0].strip())[1:-1]),ROUND_TO)) + " = " + str(float(get_all_tracer_data(csvData,tracerPos)[0][-3])))
+    tracerName += " = " + str(float(get_all_tracer_data(csvData,tracerPos)[0][-3]))
     
     # print curve grid body position:
     #if round(float((coord_list[1].strip())[1:-1]),0) == 0.0 and round(float((coord_list[2].strip())[1:-1]),0) == 8.0:
