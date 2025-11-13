@@ -7,10 +7,10 @@
     [19.0, 0.0,  8.0],
     [19.2, 0.0,  8.0],
     [19.4, 0.0,  8.0],
-    [19.6, 0.0,  8.0],
-    [19.8, 0.0,  8.0],
-    [20.0, 0.0,  8.0],
-    [20.2, 0.0,  8.0],
+    [19.6, 0.0,  8.0], 
+    [19.8, 0.0,  8.0], # best near
+    [20.0, 0.0,  8.0], 
+    [20.2, 0.0,  8.0], # best far
     [20.4, 0.0,  8.0],
     [20.6, 0.0,  8.0],
     [20.8, 0.0,  8.0],
@@ -98,8 +98,8 @@
     [19.4,  6.0,  9.5], #above left patch center
     [19.6,  6.0,  9.5], #above left patch center
     [19.8,  6.0,  9.5], #above left patch center
-    [20.0,  6.0,  9.5], #above left patch center
-    [20.2,  6.0,  9.5], #above left patch center
+    [20.0,  6.0,  9.5], #above left patch center #best near
+    [20.2,  6.0,  9.5], #above left patch center #best far
     [20.4,  6.0,  9.5], #above left patch center
     [20.6,  6.0,  9.5], #above left patch center
     [20.8,  6.0,  9.5], #above left patch center
@@ -141,9 +141,9 @@
     [19.2,  7.5,  5.0],
     [19.4,  7.5,  5.0],
     [19.6,  7.5,  5.0],
-    [19.8,  7.5,  5.0],
+    [19.8,  7.5,  5.0], 
     [20.0,  7.5,  5.0],
-    [20.2,  7.5,  5.0],
+    [20.2,  7.5,  5.0], 
     [20.4,  7.5,  5.0],
     [20.6,  7.5,  5.0],
     [20.8,  7.5,  5.0],
@@ -154,6 +154,10 @@
     [21.8,  7.5,  5.0],
     [22.0,  7.5,  5.0],
 
+    
+    
+    
+    
     [18.0,  7.5,  8.0],
     [18.2,  7.5,  8.0],
     [18.4,  7.5,  8.0],
@@ -164,8 +168,8 @@
     [19.4,  7.5,  8.0],
     [19.6,  7.5,  8.0],
     [19.8,  7.5,  8.0],
-    [20.0,  7.5,  8.0],
-    [20.2,  7.5,  8.0],
+    [20.0,  7.5,  8.0], # best near
+    [20.2,  7.5,  8.0], # best far
     [20.4,  7.5,  8.0],
     [20.6,  7.5,  8.0],
     [20.8,  7.5,  8.0],
@@ -185,9 +189,9 @@
     [19.2,  7.5,  9.5], #center of left patch
     [19.4,  7.5,  9.5], #center of left patch
     [19.6,  7.5,  9.5], #center of left patch
-    [19.8,  7.5,  9.5], #center of left patch
+    [19.8,  7.5,  9.5], #center of left patch # best near
     [20.0,  7.5,  9.5], #center of left patch
-    [20.2,  7.5,  9.5], #center of left patch
+    [20.2,  7.5,  9.5], #center of left patch # best far
     [20.4,  7.5,  9.5], #center of left patch
     [20.6,  7.5,  9.5], #center of left patch
     [20.8,  7.5,  9.5], #center of left patch
@@ -208,8 +212,8 @@
     [19.4,  7.5, 11.0],
     [19.6,  7.5, 11.0],
     [19.8,  7.5, 11.0],
-    [20.0,  7.5, 11.0],
-    [20.2,  7.5, 11.0],
+    [20.0,  7.5, 11.0], # best near
+    [20.2,  7.5, 11.0], # best far
     [20.4,  7.5, 11.0],
     [20.6,  7.5, 11.0],
     [20.8,  7.5, 11.0],
@@ -384,8 +388,8 @@
     [19.4,  9.0,  9.5], #below left patch center
     [19.6,  9.0,  9.5], #below left patch center
     [19.8,  9.0,  9.5], #below left patch center
-    [20.0,  9.0,  9.5], #below left patch center
-    [20.2,  9.0,  9.5], #below left patch center
+    [20.0,  9.0,  9.5], #below left patch center # best near
+    [20.2,  9.0,  9.5], #below left patch center # best far
     [20.4,  9.0,  9.5], #below left patch center
     [20.6,  9.0,  9.5], #below left patch center
     [20.8,  9.0,  9.5], #below left patch center

@@ -117,7 +117,7 @@ except:
 tracer_names = get_all_possible_options(RAW_DATA_CODE)
 
 with open(scenario_name.upper() + "_ref_" + reference_name + ".csv", "w") as output_file:
-    
+    output_file.write("# this is a test\n")
     output_file.write("number(0), number(1), t, x(0), x(1), x(2), data \n")
     for i in range(0,len(tracer_names)):
         raw_data_button = driver.find_element(By.NAME,RAW_DATA_CODE + tracer_names[i])

@@ -12,6 +12,8 @@ from tkinter import ttk
 ROW_AMOUNT = 3
 ROUND_TO = 12               # To how many digits after the comma it should be rounded
 OFFSET_TO_CENTER = 20.
+last_strike = 10000
+same_strike_in_row = 1
 
 NAME_CONFIGS = { "tpv": [
                     "n-vel (x)",
@@ -182,12 +184,19 @@ def get_tracer_name(tracerPos):
                 tracerName += "dip " + str(round(float((coord_list[i].strip())[1:-1]),ROUND_TO)) + ", "
             case 2:
                 tracerName += "strike " + str(round(float((coord_list[i].strip())[1:-1])-offset,ROUND_TO)) + ", "
+                global last_strike
+                global same_strike_in_row
+                if round(float((coord_list[i].strip())[1:-1])-offset,ROUND_TO) == last_strike:
+                    same_strike_in_row += 1
+                else :
+                    same_strike_in_row = 1
+                last_strike = round(float((coord_list[i].strip())[1:-1])-offset,ROUND_TO)
 
     tracerName = tracerName[:-2] + ")"
 
     # output cartesian tracer body position and compare with curvi body position:
     #print(str(round(float((coord_list[0].strip())[1:-1]),ROUND_TO)) + " = " + str(float(get_all_tracer_data(csvData,tracerPos)[0][-3])))
-    tracerName += " = " + str(float(get_all_tracer_data(csvData,tracerPos)[0][-3]))
+    tracerName += " = " + str(float(get_all_tracer_data(csvData,tracerPos)[0][-3])) + " " + str(same_strike_in_row)
     
     # print curve grid body position:
     #if round(float((coord_list[1].strip())[1:-1]),0) == 0.0 and round(float((coord_list[2].strip())[1:-1]),0) == 8.0:
@@ -216,6 +225,7 @@ def get_variable_ids(variableListString):
 
 
 def main():
+
     root = tk.Tk()
     root.title(simulationName)
     root.geometry("400x500")
@@ -331,6 +341,8 @@ if __name__ == "__main__":
     for i in range(len(varNames), len(csvData[0])-dataIndex):
         varNames.append("Variable " + str(i))
 
+    
+    
     main()
 
 
