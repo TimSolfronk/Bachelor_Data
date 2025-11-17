@@ -115,7 +115,7 @@ void ContextDynamicRupture<Shortcuts, basisSize, numberOfVariables, numberOfPara
   //ADDED ---------------------------------------------------------------
   T tol = 1e-8;
   T updated_mu_s = mu_s;
-  if(x[0]>20.0-tol && x[0]<20.0+tol && (x[1] < 0 || x[1] > 15.0 || x[2]-f_cz > f_wz || x[2]-f_cz < -f_wz))
+  if(x[0]>20.0-tol && x[0]<20.0+tol && (x[1] > 15.0 || x[2]-f_cz > f_wz || x[2]-f_cz < -f_wz))
   {
     updated_mu_s = 10000;
   }
