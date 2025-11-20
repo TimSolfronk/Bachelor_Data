@@ -78,11 +78,7 @@ SCENARIO_CONFIGS = {
             1,
             2
     ], NAME_CONFIGS["loh"],False],
-    "custom":[[
-            0,
-            1,
-            2,
-    ], NAME_CONFIGS["tpv"],True]
+    "reference":[[], NAME_CONFIGS["tpv"],True]
 }
 
 """
@@ -149,6 +145,13 @@ def get_specific_tracer_data(csvDataFiltered, offset):
 def display_tracer_graphs(tracerPos):
     csvDataForTracer = get_all_tracer_data(csvData,tracerPos)
 
+    if args.scenario == "reference":
+        varsToPlot = range(0,len(csvDataForTracer[0])-dataIndex)
+        if tracerPos[0] == "20.0":
+            varNames = ref_on_fault_names
+        else:
+            varNames = ref_off_fault_names
+
     dataAmount = len(varsToPlot)
     columnAmount = dataAmount//ROW_AMOUNT + (1 if dataAmount%ROW_AMOUNT>0 else 0)
     fig, axs = plt.subplots(ROW_AMOUNT, columnAmount, figsize=(9, 13))
@@ -179,7 +182,8 @@ def get_tracer_name(tracerPos):
     for i in range(len(coord_list)):
         match i:
             case 0:
-                tracerName += "body " + str(round(float((coord_list[i].strip())[1:-1])-offset,ROUND_TO)) + ", "
+                if not(args.scenario == "reference" and tracerPos[i] == "20.0"):
+                    tracerName += "body " + str(round(float((coord_list[i].strip())[1:-1])-offset,ROUND_TO)) + ", "
             case 1:
                 tracerName += "dip " + str(round(float((coord_list[i].strip())[1:-1]),ROUND_TO)) + ", "
             case 2:
@@ -307,6 +311,19 @@ if __name__ == "__main__":
             print("the file you have specified does not exist, please make sure that it does in the specified location")
             exit()
 
+    if args.scenario == "reference":
+        ref_on_fault_names = []
+        ref_off_fault_names = []
+        temp = csvData[0][0].split(" ")
+        for i in range(3,len(temp)):
+            if temp[i].strip() != "":
+                ref_on_fault_names.append(temp[i].strip())
+        temp = csvData[1][0].split(" ")
+        for i in range(3,len(temp)):
+            if temp[i].strip() != "":
+                ref_off_fault_names.append(temp[i].strip())
+        csvData = csvData[2:]
+
 
     timeIndex = csvData[0].index(' t')
     dataIndex = csvData[0].index(" data ") #+ args.v
@@ -332,7 +349,7 @@ if __name__ == "__main__":
 
     #varsToPlot = get_variable_ids(args.v)
     if args.v != "":
-            varsToPlot = get_variable_ids(args.v)
+        varsToPlot = get_variable_ids(args.v)
     else:
         varsToPlot = SCENARIO_CONFIGS[args.scenario][0]
     # read in variable names

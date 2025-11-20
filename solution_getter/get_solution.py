@@ -21,7 +21,7 @@ SCENARIOS_CODE = "G1045"
 SOLUTIONS_CODE = "G1047"
 RAW_DATA_CODE = "G1059"
 
-
+# Get all submit button names that start with the given code
 def get_all_possible_options(option_code):
     option_names = []
     curIndex = -1
@@ -57,6 +57,7 @@ def format_data_line(tracer_id, tracer_pos, cur_line_data: str):
 
     return line + "\n"
 
+# helper that converts '-xxx' or 'xxx' into a number -xx.x or xx.x 
 def get_single_coordinate(tracer_name):
     if tracer_name.startswith("-"):
         return - float(tracer_name[1:3] + "." + tracer_name[3])
@@ -89,18 +90,20 @@ def get_tracer_pos(tracer_name:str):
 
 
 
-
+# start browser
 opts = Options()
-# opts.add_argument("--headless=new")   # uncomment to run headless (no visible browser)
-driver = webdriver.Chrome(options=opts)  # ensure chromedriver is installed/available
+opts.add_argument("--headless=new")   # don't show browser
+driver = webdriver.Chrome(options=opts)  # if this line crashes, you don't have the chromedriver installed / available
 
-driver.get(STRIKE_URL)  # page that contains the form
-# find the submit input by name and click it
+print("Searching for scenario...")
+driver.get(STRIKE_URL) 
+# Click on 'Public Area' Button
 pub_area_button = driver.find_element(By.NAME, PUB_AREA_CODE)
 pub_area_button.click()
 
-# give the browser a moment to follow redirect / load
+# give the browser a moment to load
 time.sleep(1)
+# check if the scenario exists, and if so load the scenario page
 try:
     scenario_button = driver.find_element(By.NAME,SCENARIOS_CODE + scenario_name)
     scenario_button.click()
@@ -112,6 +115,7 @@ except:
     driver.quit()
     sys.exit()
 
+# check if the reference solution exists, and if so load the solution
 try:
     ref_sol_button = driver.find_element(By.NAME,SOLUTIONS_CODE + reference_name)
     ref_sol_button.click()
@@ -123,9 +127,12 @@ except:
     driver.quit()
     sys.exit()
 
+# get all tracer names
+print("Initializing variables...")
 tracer_names = get_all_possible_options(RAW_DATA_CODE)
-print(tracer_names)
+# print(tracer_names)
 
+# Set the variable names of the data and put them as a comment in the first two lines of the csv file
 got_on_fault_param_names = False
 got_off_fault_param_names = False
 first_line = "# data_on_fault = "
@@ -147,30 +154,38 @@ for tracer in tracer_names:
         raw_data = driver.find_element(By.TAG_NAME, "pre").text
         second_line += raw_data[raw_data.find("\nt ")+2:].split("\n")[0] + "\n"
         driver.back()
-    
+
 
 with open(scenario_name.upper() + "_ref_" + reference_name + ".csv", "w") as output_file:
+    # initialize csv file
     output_file.write(first_line)
     output_file.write(second_line)
     output_file.write("number(0), number(1), t, x(0), x(1), x(2), data \n")
+    print("Initialized everything correctly, starting to get data now...")
+    print("0% done")
+
+    # get the data of every tracer, format it, and add it to the csv file 
     for i in range(0,len(tracer_names)):
+        tracer_pos = get_tracer_pos(tracer_names[i])
+
+        # go to raw data page of tracer
         raw_data_button = driver.find_element(By.NAME,RAW_DATA_CODE + tracer_names[i])
         raw_data_button.click()
         time.sleep(1)
+        
+        # retrieve tracer data
         raw_data = driver.find_element(By.TAG_NAME, "pre").text
         raw_data_lines = raw_data[raw_data.find("\nt ")+1:].split("\n")
-        raw_data_lable = raw_data_lines[0]
-        tracer_pos = get_tracer_pos(tracer_names[i])
 
         for j in range(1,len(raw_data_lines)):
             if raw_data_lines[j].startswith("#"):
                 continue
             output_file.write(format_data_line(i,tracer_pos,raw_data_lines[j]))
-
+        
+        print(str(int((i+1)/len(tracer_names) * 100)) + "% done")
         driver.back()
         time.sleep(0.25)
 
-#print(tracer_names)
 
-#print(driver.page_source[:])
+print("Saved solution as: '" + scenario_name.upper() + "_ref_" + reference_name + ".csv'")
 driver.quit()
