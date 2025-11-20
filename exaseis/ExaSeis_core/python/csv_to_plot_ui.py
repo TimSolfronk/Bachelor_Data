@@ -118,6 +118,8 @@ Plot the all the specified data of the given tracer
 def display_tracer_graphs(tracerPos):
     csvDataForTracer = get_all_tracer_data(csvData,tracerPos)
 
+    global varsToPlot
+    global varNames
     # If a reference solution is used, update that all variables should be plotted and update the names
     if args.scenario == "reference":
         varsToPlot = range(0,len(csvDataForTracer[0])-dataIndex)
