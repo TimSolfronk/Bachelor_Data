@@ -142,7 +142,7 @@ class TPV5(Scenario):
         )
 
         self.copy_file_to_current_folder(
-            os.path.dirname(os.path.realpath(__file__))+"/specs/TPV5/tpv34_fault.yaml", 
+            os.path.dirname(os.path.realpath(__file__))+"/specs/TPV34/tpv34_fault.yaml", 
             "tpv34_fault.yaml"
         )
 

@@ -173,7 +173,7 @@ def get_tracer_name(tracerPos):
     tracerName = tracerName[:-2] + ")"
 
     # Uncomment below to see the curvi body positions in the interface
-    #tracerName += " = " + str(float(get_all_tracer_data(csvData,tracerPos)[0][-3])) 
+    tracerName += " = " + str(float(get_all_tracer_data(csvData,tracerPos)[0][-3])) 
 
     return tracerName
 

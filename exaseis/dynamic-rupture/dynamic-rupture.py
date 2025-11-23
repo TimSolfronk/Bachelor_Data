@@ -18,7 +18,8 @@ available_scenarios = {
     "TPV5": Scenario.TPV5(),
     "TPV26": Scenario.TPV26(), 
     "TPV28": Scenario.TPV28(),
-    "TPV29": Scenario.TPV29()
+    "TPV29": Scenario.TPV29(),
+    "TPV6": Scenario.TPV6()
 }
 
 
