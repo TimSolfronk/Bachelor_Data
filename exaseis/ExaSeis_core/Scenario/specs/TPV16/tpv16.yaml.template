@@ -1,0 +1,16 @@
+domain: 
+  offset: [-5.6, 0.0, -5.6]
+  size:   [51.2, 51.2, 51.2]
+  mode:   [ {{MODE}}, {{MODE}}, {{MODE}}  ]  
+topography: !Analytic  
+  coordinates: ["Z","X"]
+  top: true
+  perturbation: !ConstantMap
+    map: 
+      y: 0
+  split:
+    coordinates: ["Z","Y"]
+    position: 20.0
+    perturbation: !FunctionMap
+      map:
+        x: 0.0
