@@ -20,23 +20,23 @@ class TPV6(Scenario):
     end_time = 10.0
 
     tracer_coordinates = [
-          # Near Side of Fault
-          # Surface
-          [19.8, 0.0,  8.0],
-          [19.8, 0.0,  0.0],
-          [19.8, 0.0, 32.0],
-          # Underground
-          [19.8, 7.5,  8.0],
-          [19.8, 7.5, 32.0],
-          
           # Far Side of Fault
           # Surface
           [20.2, 0.0,  8.0],
-          [20.2, 0.0,  0.0],
+          [20.2, 0.0, 20.0],
           [20.2, 0.0, 32.0],
           # Underground
           [20.2, 7.5,  8.0],
           [20.2, 7.5, 32.0],
+
+          # Near Side of Fault
+          # Surface
+          [19.8, 0.0,  8.0],
+          [19.8, 0.0, 20.0],
+          [19.8, 0.0, 32.0],
+          # Underground
+          [19.8, 7.5,  8.0],
+          [19.8, 7.5, 32.0]
     ]
 
     def initial_conditions(self):
