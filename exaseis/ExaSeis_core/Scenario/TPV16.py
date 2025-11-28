@@ -20,7 +20,35 @@ class TPV16(Scenario):
     end_time = 15.0
 
     tracer_coordinates = [
-          
+          # off-fault tracers
+          [26.0, 0.0,11.0],
+          [26.0, 0.0,20.0],
+          [26.0, 0.0,29.0],
+          [20.4, 0.0,11.0],
+          [20.4, 0.0,20.0],
+          [20.4, 0.0,29.0],
+          [19.6, 0.0,11.0],
+          [19.6, 0.0,20.0],
+          [19.6, 0.0,29.0],
+          [14.0, 0.0,11.0],
+          [14.0, 0.0,20.0],
+          [14.0, 0.0,29.0],
+
+          #on-fault tracers
+          [19.8, 0.0,11.0],
+          [19.8, 0.0,20.0],
+          [19.8, 0.0,29.0],
+          [19.8, 9.0,11.0],
+          [19.8, 9.0,20.0],
+          [19.8, 9.0,29.0],
+
+          [20.2, 0.0,11.0],
+          [20.2, 0.0,20.0],
+          [20.2, 0.0,29.0],
+          [20.2, 9.0,11.0],
+          [20.2, 9.0,20.0],
+          [20.2, 9.0,29.0]
+
     ]
 
     def initial_conditions(self):
@@ -34,17 +62,17 @@ class TPV16(Scenario):
 
         dictionary = { "MODE": order+1 }
         self.generate_file_from_template(
-            os.path.dirname(os.path.realpath(__file__))+"/specs/tpv16/tpv16.yaml.template",
+            os.path.dirname(os.path.realpath(__file__))+"/specs/TPV16/tpv16.yaml.template",
             "tpv16.yaml", dictionary
         )
 
         self.copy_file_to_current_folder(
-            os.path.dirname(os.path.realpath(__file__))+"/specs/tpv16/tpv16_fault.yaml", 
+            os.path.dirname(os.path.realpath(__file__))+"/specs/TPV16/tpv16_fault.yaml", 
             "tpv16_fault.yaml"
         )
 
         self.copy_file_to_current_folder(
-            os.path.dirname(os.path.realpath(__file__))+"/specs/tpv16/tpv16_input_file.txt", 
+            os.path.dirname(os.path.realpath(__file__))+"/specs/TPV16/tpv16_input_file.txt", 
             "tpv16_input_file.txt"
         )
 

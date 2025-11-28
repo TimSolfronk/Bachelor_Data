@@ -51,6 +51,7 @@ SCENARIO_CONFIGS = {
     "loh1":[[0,1,2], NAME_CONFIGS["loh"],False],
     "tpv6": [[11,7,2,9,3,0,10,6,1], NAME_CONFIGS["tpv"],True],
     "tpv12": [[11,2,10,1,9,0], NAME_CONFIGS["tpv"],True],
+    "tpv16": [[11,2,10,1,9,0], NAME_CONFIGS["tpv"],True],
     "reference":[[], NAME_CONFIGS["tpv"],True] # for reference it will always show all data plots by default
 }
 
@@ -193,9 +194,9 @@ def get_variable_ids(variableListString):
     for entryId in varEntries:
         if '-' in entryId:
             idRange = entryId.split('-')
-            output.extend(range(int(idRange[0])-1,int(idRange[1])))
-        elif int(entryId)-1 < variablesAmount:
-            output.append(int(entryId)-1)
+            output.extend(range(int(idRange[0]),int(idRange[1])+1))
+        elif int(entryId) <= variablesAmount and int(entryId) >= 0:
+            output.append(int(entryId))
         else:
             print("Discarded id '" + entryId + "' of argument --v, because this id does not exist")
 

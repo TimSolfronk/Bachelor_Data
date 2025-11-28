@@ -14,28 +14,22 @@
             s_yy: 0.0
             s_zz: 0.0
             s_yz: 0.0
-        [s_yy, s_xy, s_xz,cohesion]: !LuaMap
-            returns: [s_xx, s_xy, s_xz, cohesion]
-            function: |
-                function f (x)
-                  return {
-                    s_xx = -x["s_normal"]/1000000.0, 
-                    s_xy = x["s_dip"]/1000000.0, 
-                    s_xz = x["s_strike"]/1000000.0,
-                    cohesion = -x["cohesion"]
-                  }
-                end
-        [mu_s, mu_d, d_c]: !IdentityMap {}
-        [forced_rupture_time]: 
-        components:
-        - !AxisAlignedCuboidalDomainFilter
-          limits:
-            y: [0,19500]
-            z: [0,48000]
-          components: !IdentityMap {}
-        - !ConstantMap
+        [s_xx, s_xy, s_xz, cohesion, mu_s, mu_d, d_c, forced_rupture_time]: !FunctionMap
           map:
-            forced_rupture_time: 9999999.0
+            s_xx : return -s_normal/1000000.0; 
+            s_xy : return s_dip/1000000.0;
+            s_xz : return s_strike/1000000.0;
+            cohesion : return cohesion/1000000.0;
+            mu_s : return mu_s;
+            mu_d : return mu_d;
+            d_c : return d_c;
+            forced_rupture_time: |
+              if ((0.0 <= y) && (y <= 19500.0)) {
+                if ((0.0 <= z) && (z <= 48000.0)) {
+                    return forced_rupture_time;
+                }        
+              }
+              return 1000000000.0;
 [t_0, f_cy, f_wy, f_cz, f_wz, n_yz]: !ConstantMap
   map:
      t_0:    0.5
