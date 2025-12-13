@@ -1,36 +1,28 @@
 !Switch
-[s_xx, s_zz, s_xz, s_yy, s_xy, s_yz, cohesion, mu_s, mu_d, d_c, forced_rupture_time]: !AffineMap
-    matrix:
-      z: [0.0, 0.0, 1000.0]
-      y: [0.0, 1000.0, 0.0]
-    translation:
-      z: 4000.0
-      y: 0.0
-    components: !SCECFile
-      file: tpv16_input_file.txt
-      components: !Switch
-        [s_yy, s_zz, s_yz]: !ConstantMap
-          map:
-            s_yy: 0.0
-            s_zz: 0.0
-            s_yz: 0.0
-        [s_xx, s_xy, s_xz, cohesion, mu_s, mu_d, d_c, forced_rupture_time]: !FunctionMap
-          map:
-            s_xx : return -s_normal/1000000.0;
-            s_xy : return s_dip/1000000.0;
-            s_xz : return s_strike/1000000.0;
-            cohesion : return cohesion/1000000.0;
-            mu_s : return mu_s;
-            mu_d : return mu_d;
-            d_c : return d_c;
-            forced_rupture_time: return forced_rupture_time;
+[s_xx, s_zz, s_xz]: !ConstantMap
+  map:
+    s_yy: 0.0
+    s_zz: 0.0
+    s_yz: 0.0
+[s_yy, s_xy, s_yz, cohesion, mu_s, mu_d, d_c, forced_rupture_time]: !AffineMap
+  matrix:
+    y: [0.0, 1.0, 0.0]
+    z: [0.0, 0.0, 1.0]
+  translation:
+    y: 0.0
+    z: 4.0
+  components: !ASAGI
+    file: tpv16_fault.nc
+    parameters: [s_xx, s_xz, s_xy, mu_s, mu_d, d_c, cohesion, forced_rupture_time]
+    var: data
 [t_0, f_cy, f_wy, f_cz, f_wz, n_yz]: !ConstantMap
   map:
-     t_0:    0.5
-     f_cy :  0.0
+     t_0  : 0.5
+     f_cy : 0.0
      f_wy : 19.5
      f_cz : 20.0
      f_wz : 24.0
-     n_yz: 0.0
+     n_yz : 0.0
+
 
 

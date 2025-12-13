@@ -9,9 +9,9 @@ class TPV6(Scenario):
     Part of a series of benchmarks by the Statewide California Earthquake Center (SCEC)
 
     Spontaneous rupture on a vertical strike-slip fault in a homogeneous halfspace.
-    There are slightly heterogeneous initial stress conditions. 
+    There are slightly heterogeneous initial stress conditions.
 
-    The description of the scenario can be found at: https://strike.scec.org/cvws/tpv5docs.html
+    The description of the scenario can be found at: https://strike.scec.org/cvws/tpv6docs.html
     """
 
     domain_offset   = [6.5,  0., 6.5] #centers the fault which is at 20.
@@ -20,39 +20,40 @@ class TPV6(Scenario):
     end_time = 10.0
 
     tracer_coordinates = [
-          # Far Side of Fault
-          # Surface
-          [20.2, 0.0,  8.0],
-          [20.2, 0.0, 20.0],
-          [20.2, 0.0, 32.0],
-          # Underground
-          [20.2, 7.5,  8.0],
-          [20.2, 7.5, 32.0],
-
           # Near Side of Fault
           # Surface
-          [19.8, 0.0,  8.0],
-          [19.8, 0.0, 20.0],
-          [19.8, 0.0, 32.0],
+          [19.78, 0.1,  8.0],
+          [19.78, 0.1, 20.0],
+          [19.78, 0.1, 32.0],
           # Underground
-          [19.8, 7.5,  8.0],
-          [19.8, 7.5, 32.0]
+          [19.78, 7.5,  8.0],
+          [19.78, 7.5, 32.0],
+
+
+          # Far Side of Fault
+          # Surface
+          [20.19, 0.1,  8.0],
+          [20.19, 0.1, 20.0],
+          [20.19, 0.1, 32.0],
+          # Underground
+          [20.19, 7.5,  8.0],
+          [20.19, 7.5, 32.0],
     ]
 
     def initial_conditions(self):
         return """
-        if(Q[Shortcuts::curve_grid + 0] >= 20.0)   //Look on Curve_grid if x coord is >=20
+        if(x[0] >= 20.0)   //Look on Curve_grid if x coord is >=20
         {                                           //Far Side
-            Q[Shortcuts::rho] = 2.225; 
-            Q[Shortcuts::cp ] = 3.75; 
-            Q[Shortcuts::cs ] = 2.165; 
+            Q[Shortcuts::rho] = 2.225;
+            Q[Shortcuts::cp ] = 3.75;
+            Q[Shortcuts::cs ] = 2.165;
         } else {                                    //Near Side
-            Q[Shortcuts::rho] = 2.67; 
-            Q[Shortcuts::cp ] = 6.0; 
-            Q[Shortcuts::cs ] = 3.464; 
+            Q[Shortcuts::rho] = 2.67;
+            Q[Shortcuts::cp ] = 6.0;
+            Q[Shortcuts::cs ] = 3.464;
         }
 """
-    
+
     def generate_required_files(self, order):
 
         dictionary = { "MODE": order+1 }
@@ -62,8 +63,10 @@ class TPV6(Scenario):
         )
 
         self.copy_file_to_current_folder(
-            os.path.dirname(os.path.realpath(__file__))+"/specs/TPV6/tpv6_fault.yaml", 
+            os.path.dirname(os.path.realpath(__file__))+"/specs/TPV6/tpv6_fault.yaml",
             "tpv6_fault.yaml"
         )
 
         return
+
+

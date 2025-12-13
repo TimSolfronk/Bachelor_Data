@@ -8,6 +8,7 @@ from .TPV16 import TPV16
 from .TPV26 import TPV26
 from .TPV28 import TPV28
 from .TPV29 import TPV29
+from .TPV34 import TPV34
 from .LOH1 import LOH1
 from .HHS1 import HHS1
 from .Zugspitze import Zugspitze

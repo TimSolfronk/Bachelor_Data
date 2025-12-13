@@ -4,7 +4,7 @@ from .Scenario import Scenario
 
 import os
 
-class TPV5(Scenario):
+class TPV34(Scenario):
     """
     Part of a series of benchmarks by the Statewide California Earthquake Center (SCEC)
 
@@ -128,9 +128,9 @@ class TPV5(Scenario):
 
     def initial_conditions(self):
         return """
-      //Q[Shortcuts::rho] = 2.67; # has to be gotten by algorithm
-      //Q[Shortcuts::cp ] = 6.0; # has to be gotten by algorithm
-      //Q[Shortcuts::cs ] = 3.464; # has to be gotten by algorithm
+      Q[Shortcuts::rho] = 2.67;     //has to be gotten by algorithm
+      Q[Shortcuts::cp ] = 6.0;      //has to be gotten by algorithm
+      Q[Shortcuts::cs ] = 3.464;    //has to be gotten by algorithm
 """
     
     def generate_required_files(self, order):
@@ -144,6 +144,16 @@ class TPV5(Scenario):
         self.copy_file_to_current_folder(
             os.path.dirname(os.path.realpath(__file__))+"/specs/TPV34/tpv34_fault.yaml", 
             "tpv34_fault.yaml"
+        )
+
+        self.copy_file_to_current_folder(
+            os.path.dirname(os.path.realpath(__file__))+"/specs/TPV34/tpv34_mu_mult.nc", 
+            "tpv34_mu_mult.nc"
+        )
+
+        self.copy_file_to_current_folder(
+            os.path.dirname(os.path.realpath(__file__))+"/specs/TPV34/tpv34_rhovsvp.nc", 
+            "tpv34_rhovsvp.nc"
         )
 
         return

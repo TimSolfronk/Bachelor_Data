@@ -3,6 +3,13 @@ set -euo pipefail
 
 INSTALL_DIR="$(pwd)/cvmh_install"
 
+# set PATH_TO_AUTOMAKE to the actual path to your installed version of automake, something like "/usr/share/automake-1.16" 
+PATH_TO_AUTOMAKE="/usr/share/automake-1.16"
+if [ -z "$PATH_TO_AUTOMAKE" ]; then
+    echo "Path to Automake has not been set! Set it first in 'generate_ASAGI.sh' and then run it again."
+    exit 1
+fi
+
 python generate_cvmh_input.py
 
 if [ -d ${INSTALL_DIR} ]; then
@@ -16,12 +23,14 @@ else
     cd cvmh-15.1.0
 
     cd aux-config
-    # replace "usr/share/automake-1.16" with actual path to your installed version of automake
-    ln -sf /usr/share/automake-1.16/depcomp
-    ln -sf /usr/share/automake-1.16/install-sh
-    ln -sf /usr/share/automake-1.16/missing
+    
+    ln -sf ${PATH_TO_AUTOMAKE}/depcomp
+    ln -sf ${PATH_TO_AUTOMAKE}/install-sh
+    ln -sf ${PATH_TO_AUTOMAKE}/missing
     cd ..
 
+    echo ${PATH_TO_AUTOMAKE}/depcomp
+    echo "Configuring..."
     ./configure --prefix=${INSTALL_DIR}
     make
     make install
@@ -30,6 +39,7 @@ else
 fi
 
 
-${INSTALL_DIR}/bin/vx_lite -s -z dep -m ${INSTALL_DIR}/model < cvmh_in > cvmh_out
+${INSTALL_DIR}/bin/vx_lite -s -z dep -m ${INSTALL_DIR}/model < cvmh_in_off-fault > cvmh_out_off-fault
+${INSTALL_DIR}/bin/vx_lite -s -z dep -m ${INSTALL_DIR}/model < cvmh_in_on-fault > cvmh_out_on-fault
 
 python convert_cvmh_output.py

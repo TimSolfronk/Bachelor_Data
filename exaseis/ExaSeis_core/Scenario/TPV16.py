@@ -72,8 +72,8 @@ class TPV16(Scenario):
         )
 
         self.copy_file_to_current_folder(
-            os.path.dirname(os.path.realpath(__file__))+"/specs/TPV16/tpv16_input_file.txt", 
-            "tpv16_input_file.txt"
+            os.path.dirname(os.path.realpath(__file__))+"/specs/TPV16/tpv16_fault.nc", 
+            "tpv16_fault.nc"
         )
 
         return
