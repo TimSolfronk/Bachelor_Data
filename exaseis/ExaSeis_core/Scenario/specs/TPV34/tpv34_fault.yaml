@@ -1,10 +1,10 @@
 !Switch
 [s_yy,s_zz,s_xy,s_yz]: !ConstantMap
   map:
-    s_yy: 0
-    s_zz: 0
+    s_yy: 0.0
+    s_zz: 0.0
     s_xy: 0.0
-    s_yz: 0    
+    s_yz: 0.0  
 [s_xx, s_xz,n_yz]: !EvalModel
   parameters: [mu_mult]
   model: !Switch
@@ -20,6 +20,7 @@
         parameters: [mu_mult]
         var: data
   components: !FunctionMap
+  map:
     s_xx: |
       return -60.00 * mu_mult;
     s_xz: |
@@ -27,10 +28,10 @@
     n_yz: |
       r= sqrt((y-7.5)*(y-7.5)+(z-20.0)*(z-20.0));
       if (r <= 1.4) {
-         return 4.95 * mu_mult;
+        return 4.95 * mu_mult;
       }
       if (1.4 <= r && r <= 2.0){
-         return 2.475 * (1.0 + cos(3.14159265359 * (r-1.4)/0.6)) * mu_mult;
+        return 2.475 * (1.0 + cos(3.14159265359 * (r-1.4)/0.6)) * mu_mult;
       }
       return 0.0;
 [mu_s, mu_d, d_c, t_0, f_cy, f_wy, f_cz, f_wz]: !ConstantMap

@@ -19,18 +19,18 @@ Vp = 17-1; Vs = 18-1; Rho = 19-1 # python begin from 0!
 
 ### inside refinement zone
 outfile = open("cvmh_out_off-fault",'r')
-VpVsRho = []
+rhoVsVp = []
 for line in outfile:
     columns = (line.strip().split())
     # add vp, vs and rho, but already scale them correctly for exaseis
-    VpVsRho.append([float(columns[Vp])/1000.0,
-                          float(columns[Vs])/1000.0,
-                          float(columns[Rho])/1000.0])
-VpVsRho = np.asarray(VpVsRho)
+    rhoVsVp.append([float(columns[Rho])/1000.0,
+                    float(columns[Vs])/1000.0,
+                    float(columns[Vp])/1000.0])
+rhoVsVp = np.asarray(rhoVsVp)
 # enforce minimum parameter values
-VpVsRho[:,0][VpVsRho[:,0]<2.984]=2.984 # replace the Vp values less than 2984 m/s
-VpVsRho[:,1][VpVsRho[:,1]<1.4]=1.4 # replace the Vs values less than 1400 m/s
-VpVsRho[:,2][VpVsRho[:,2]<2.22034]=2.22034 # replace the Rho values less than 2220.34 m/s
+rhoVsVp[:,2][rhoVsVp[:,0]<2.22034]=2.22034 # replace the Rho values less than 2220.34 m/s
+rhoVsVp[:,1][rhoVsVp[:,1]<1.4]=1.4 # replace the Vs values less than 1400 m/s
+rhoVsVp[:,0][rhoVsVp[:,2]<2.984]=2.984 # replace the Vp values less than 2984 m/s
 
 
 ### write NetCDF files
@@ -44,10 +44,11 @@ z_nc = np.arange(Z_min,Z_max+dgrid,dgrid)
 #print(z_nc)
 
 
-VpVsRho = VpVsRho.reshape((len(z_nc),len(y_nc),len(x_nc),3))
+
+rhoVsVp = rhoVsVp.reshape((len(z_nc),len(y_nc),len(x_nc),3))
 
 print('Writing NetCDF file')
-nc = Dataset('tpv34_rhovsvp.nc', "w", format="NETCDF4")
+nc = Dataset('tpv34_rhoVsVp.nc', "w", format="NETCDF4")
 nc.createDimension("x", len(x_nc))
 nc.createDimension("y", len(y_nc))
 nc.createDimension("z", len(z_nc))
@@ -59,12 +60,12 @@ vy[:] = y_nc
 vx = nc.createVariable("x","f4",("x",))
 vx[:] = x_nc
 
-mattype4 = np.dtype([('vs','f4'),('vp','f4'),('rho','f4')])
-mattype8 = np.dtype([('vs','f8'),('vp','f8'),('rho','f8')])
+mattype4 = np.dtype([('rho','f4'),('vs','f4'),('vp','f4')])
+mattype8 = np.dtype([('rho','f8'),('vs','f8'),('vp','f8')])
 mattype = nc.createCompoundType(mattype4,'material')
 
 # transform to an array with 4 dim (x,y,z,0-2)
-arr = VpVsRho
+arr = rhoVsVp
 arr = arr.view(dtype=mattype8)              # format to dtype
 #print(arr)
 arr = arr.reshape(arr.shape[:-1])
@@ -81,15 +82,15 @@ print('Done')
 
 
 outfile = open("cvmh_out_on-fault",'r')
-VsRho = []
+vsRho = []
 for line in outfile:
     columns = (line.strip().split())
-    VsRho.append([float(columns[Vs]),
+    vsRho.append([float(columns[Vs]),
                           float(columns[Rho])])
-VsRho = np.asarray(VsRho)
+vsRho = np.asarray(vsRho)
 # enforce minimum parameter values
-VsRho[:,0][VsRho[:,0]<1400.0]=1400.0 # replace the Vs values less than 1400 m/s
-VsRho[:,1][VsRho[:,1]<2220.34]=2220.34 # replace the Rho values less than 2220.34 m/s
+vsRho[:,0][vsRho[:,0]<1400.0]=1400.0 # replace the Vs values less than 1400 m/s
+vsRho[:,1][vsRho[:,1]<2220.34]=2220.34 # replace the Rho values less than 2220.34 m/s
 
 
 fgrid = 0.1 # the fault has 100 m resolution
@@ -97,9 +98,9 @@ y_fault = np.arange(Y_min,Y_max+fgrid,fgrid)
 z_fault = np.arange(Z_min,Z_max+fgrid,fgrid)
 
 
-VsRho = VsRho.reshape((len(z_fault),len(y_fault),2))
+vsRho = vsRho.reshape((len(z_fault),len(y_fault),2))
 mu0 = 32038120320.0 # in Pa
-mu_mult  = VsRho[:,:,0] ** 2 * VsRho[:,:,1] / mu0       # mu_mult = mu/mu0   (with mu = Vs² * rho)     (shear modulus)
+mu_mult  = vsRho[:,:,0] ** 2 * vsRho[:,:,1] / mu0       # mu_mult = mu/mu0   (with mu = Vs² * rho)     (shear modulus)
 
 print('Writing NetCDF file')
 nc = Dataset('tpv34_mu_mult.nc', "w", format="NETCDF4")
@@ -129,7 +130,7 @@ print('Done')
 y_coord =  10.0
 z_coord =  10.0 
 
-with xr.open_dataset('tpv34_rhovsvp.nc') as ds:
+with xr.open_dataset('tpv34_rhoVsVp.nc') as ds:
     print(ds)
     print()
     print()

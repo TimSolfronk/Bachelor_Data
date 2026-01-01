@@ -51,7 +51,7 @@ SCENARIO_CONFIGS = {
     "loh1":[[0,1,2], NAME_CONFIGS["loh"],False],
     "tpv6": [[11,7,2,9,3,0,10,6,1], NAME_CONFIGS["tpv"],True],
     "tpv12": [[11,2,10,1,9,0], NAME_CONFIGS["tpv"],True],
-    "tpv16": [[11,2,10,1,9,0], NAME_CONFIGS["tpv"],True],
+    "tpv16": [[11,2,9,0,10,1], NAME_CONFIGS["tpv"],True],
     "reference":[[], NAME_CONFIGS["tpv"],True] # for reference it will always show all data plots by default
 }
 

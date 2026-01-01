@@ -23,9 +23,9 @@ VpVsRho = []
 for line in outfile:
     columns = (line.strip().split())
     # add vp, vs and rho, but already scale them correctly for exaseis
-    VpVsRho.append([float(columns[Vp])/1000.0,
-                          float(columns[Vs])/1000.0,
-                          float(columns[Rho])/1000.0])
+    VpVsRho.append([float(columns[Rho])/1000.0,
+                    float(columns[Vs])/1000.0,
+                    float(columns[Vp])/1000.0])
 VpVsRho = np.asarray(VpVsRho)
 # enforce minimum parameter values
 VpVsRho[:,0][VpVsRho[:,0]<2.984]=2.984 # replace the Vp values less than 2984 m/s
