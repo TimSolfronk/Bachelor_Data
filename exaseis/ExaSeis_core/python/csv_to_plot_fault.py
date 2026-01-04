@@ -66,6 +66,10 @@ SCENARIOS_SHOW_CONFIG = {
     "tpv16":{
         "on-fault":  [7,11,2,3,6,10,1],
         "off-fault": [11,2,9,0,10,1]
+    },
+    "tpv34":{
+        "on-fault":  [7,11,2,3,6,10,1],
+        "off-fault": [11,2,9,0,10,1]
     }
 }
 
