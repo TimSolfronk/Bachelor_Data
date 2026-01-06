@@ -4,3 +4,4 @@ exaseis/ExaSeis_core/Scenario/specs/TPV34/cvmh-15.1.0/
 exaseis/ExaSeis_core/Scenario/specs/TPV34/cvmh-15.1.0.tar.gz
 exaseis/ExaSeis_core/Scenario/specs/TPV34/cvmh_install/
 exaseis/dynamic-rupture/solutions*
+*ref_barall.csv
