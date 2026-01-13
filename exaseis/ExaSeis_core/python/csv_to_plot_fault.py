@@ -3,6 +3,7 @@ import csv
 import argparse
 import numpy as np
 import sys
+import copy
 import tkinter as tk
 from tkinter import ttk
 from pathlib import Path
@@ -13,7 +14,9 @@ from pathlib import Path
 ROW_AMOUNT = 3              # How many rows of plots there should be (-> influences how many columns will be needed)
 ROUND_TO = 12               # To how many digits after the comma it should be rounded
 OFFSET_TO_CENTER = 20.
-MAX_ON_FAULT_OFFSET = 2.1
+MAX_ON_FAULT_OFFSET = 0.1
+
+REF_COLORS = ["r","g","y"]
 
 # What the name of each data column is
 NAME_CONFIG = { "on-fault": [
@@ -80,6 +83,12 @@ SCENARIOS_SHOW_CONFIG = {
         "on-fault":  [7,11,2,3,6,10,1],
         "off-fault": [11,2,9,0,10,1],
         "ref_on-fault":[2,0,1,6,5,3,4],
+        "ref_off-fault":[0,1,4,5,2,3],
+    },
+    "tpv9":{
+        "on-fault":  [7,11,2,6,10,1],
+        "off-fault": [11,2,9,0,10,1],
+        "ref_on-fault":[2,0,1,5,3,4],
         "ref_off-fault":[0,1,4,5,2,3],
     }
 }
@@ -151,19 +160,46 @@ def get_specific_tracer_data(csvDataFiltered, offset):
 
 
 """
+Get Distance of 2 coordinate-tuples with strings as elements
+"""
+def distance(position1,position2):
+    distance = 0
+    for coord1,coord2 in zip(position1,position2):
+        distance += (float(coord1)-float(coord2)) ** 2
+    return distance ** 0.5
+
+
+
+"""
 Extract only the the time and specified variable of the reference data
 """
-def get_reference_data(tracerPos,offset):
+def get_reference_data(tracerPos,offset,id):
 
     dt = []
     y = []
+
+    if offset == -1:
+        print("Reference doesn't have that data entry (" + csvRefs[id][0].split("_")[-1][:-4] + " reference)")
+        return (dt, y)
     
-    csvRefTracer= [data for data in csvRef if position_check(data,tracerPos,True) and len(data) > dataIndex + offset]
+    csvRefTracer= [data for data in csvRefs[id][1] if position_check(data,tracerPos,True) and len(data) > dataIndex + offset]
     if len(csvRefTracer) == 0:
         print("Couldn't find this tracer in the reference")
         return (dt, y)
-    
-    print("Found tracer at: " + str([csvRefTracer[0][index] for index in positionIndexes]))
+    elif len(set([data[firstNumberIndex] for data in csvRefTracer])) > 1:
+        bestIndex = -1
+        bestDistance = 1e10
+        for indexNumber in set([data[firstNumberIndex] for data in csvRefTracer]):
+            tracerData = [data for data in csvRefTracer if data[firstNumberIndex] == indexNumber]
+            curDistance = distance(tracerPos,[tracerData[0][index] for index in positionIndexes])
+            if(curDistance < bestDistance):
+                bestDistance = curDistance
+                bestIndex = indexNumber
+
+        csvRefTracer = [data for data in csvRefTracer if data[firstNumberIndex] == bestIndex]
+            
+
+    print("Found tracer at: " + str([csvRefTracer[0][index] for index in positionIndexes]) + " (" + csvRefs[id][0].split("_")[-1][:-4] + " reference)")
 
     for row in csvRefTracer:
         dt.append(float(row[timeIndex]))
@@ -182,6 +218,7 @@ Plot all the specified data of the given tracer
 """
 def display_tracer_graphs(tracerPos):
     csvDataForTracer = get_all_tracer_data(csvData,tracerPos)
+    csvDataForTracerOut = copy.deepcopy(csvDataForTracer)
     faultStatus = "off-fault"
 
     # if on fault and the far side of the fault, compute all variables that need to be subtracted
@@ -191,10 +228,11 @@ def display_tracer_graphs(tracerPos):
         dataLength = min(len(csvDataForTracer), len(csvDataSub))
         csvDataForTracer = csvDataForTracer[:dataLength]
         csvDataSub = csvDataSub[:dataLength]
+        csvDataForTracerOut = csvDataForTracerOut[:dataLength]
         for i in range(len(csvDataForTracer)):
             for j in range(len(ON_FAULT_SUB)):
                 if ON_FAULT_SUB[j]:
-                    csvDataForTracer[i][dataIndex+j] = float(csvDataForTracer[i][dataIndex+j]) - float(csvDataSub[i][dataIndex+j])
+                    csvDataForTracerOut[i][dataIndex+j] = float(csvDataForTracer[i][dataIndex+j]) - float(csvDataSub[i][dataIndex+j])
 
     # Setup layout of plots
     dataAmount = len(varsToPlot[faultStatus])
@@ -204,18 +242,21 @@ def display_tracer_graphs(tracerPos):
 
     # for all variables to be plotted, fill out their subplot
     for i in range(dataAmount):
-        dt, y = get_specific_tracer_data(csvDataForTracer, varsToPlot[faultStatus][i])
+        dt, y = get_specific_tracer_data(csvDataForTracerOut, varsToPlot[faultStatus][i])
         currentPlot = axs[i%ROW_AMOUNT, i//ROW_AMOUNT] if columnAmount > 1 else axs[i]
         #currentPlot.plot(dt, y, color = 'b', linestyle = 'dashed', marker = 'o',label = "Variable " + str(i+1) + " as a function of time")
         varName = NAME_CONFIG[faultStatus][varsToPlot[faultStatus][i]]
-        currentPlot.plot(dt, y, color = 'b', label = varName + " as a function of time")
+        currentPlot.plot(dt, y, color = 'b', label = "ExaHyPE 2")#varName)
         if args.compare:
-            ref_dt, ref_y = get_reference_data(tracerPos,varsToPlot["ref_" + faultStatus][i])
-            currentPlot.plot(ref_dt, ref_y, color = 'r', label = varName + " reference")
+            for ref_id in range(len(csvRefs)):
+                ref_dt, ref_y = get_reference_data(tracerPos,varsToPlot["ref_" + faultStatus][i],ref_id)
+                if len(ref_dt) == 0:
+                    continue
+                currentPlot.plot(ref_dt, ref_y, color = REF_COLORS[ref_id], label = csvRefs[ref_id][0].split("_")[-1][:-4] + " ref",alpha=0.5)
+            currentPlot.legend()
         currentPlot.set_title(varName)
         currentPlot.set_xlabel('t')
         currentPlot.set_ylabel(varName)
-        #currentPlot.legend()
         currentPlot.grid(True)
         currentPlot.set_xticks(xticks)
 
@@ -258,14 +299,32 @@ def get_variable_ids(variableListString):
     for entryId in varEntries:
         if '-' in entryId:
             idRange = entryId.split('-')
-            output.extend(range(int(idRange[0])-1,int(idRange[1])))
-        elif int(entryId)-1 < variablesAmount:
+            for index in range(int(idRange[0])-1,int(idRange[1])):
+                if int(index)-1 < variablesAmount and int(index)>-1:
+                    output.append(int(index))
+                else:
+                    print("Discarded id '" + str(index + 1) + "' of argument --v, because this id does not exist")
+        elif int(entryId)-1 < variablesAmount and int(entryId)>0:
             output.append(int(entryId))
         else:
             print("Discarded id '" + entryId + "' of argument --v, because this id does not exist")
 
     return output
 
+
+"""
+Get the ids of the data that the reference should show (are usually different ids than in the ouput of ExaHyPE 2)
+"""
+def get_reference_ids(vars, fault_status):
+    output = []
+    for id in vars:
+        try:
+            index = SCENARIOS_SHOW_CONFIG[args.scenario][fault_status].index(id)
+            output.append(SCENARIOS_SHOW_CONFIG[args.scenario]["ref_" + fault_status][index])
+        except ValueError:
+            output.append(-1)
+
+    return output
 
 """
 Check if near x=20
@@ -359,7 +418,7 @@ if __name__ == "__main__":
     parser.add_argument("--v",               dest="v",              type=str,   default="",     help="A comma seperated list of the variables to be plotted (e.g. --v '1-4,8' to plot the first 4 and the 8th )" )
     parser.add_argument("--tmax",            dest="t_max",          type=float, default=None,   help="Minimal time for which data should be plotted" )
     parser.add_argument("--tmin",            dest="t_min",          type=float, default=None,   help="Maximal time for which data should be plotted" )
-    parser.add_argument("--c",               dest="compare",        action="store_true",        help="Enable verbose output")
+    parser.add_argument("--c",               dest="compare",        action="store_true",        help="Show reference solution, if available")
     args = parser.parse_args()
 
     """
@@ -409,11 +468,11 @@ if __name__ == "__main__":
             print("Could not find reference")
             sys.exit(1)
 
-        csvRef = list(csv.reader(open(ref[0].name,'r'), delimiter=','))
-        csvRef = csvRef[3:]
+        csvRefs = [(refFile.name,list(csv.reader(open(refFile.name,'r'), delimiter=','))[3:]) for refFile in ref]
 
     if args.v != "":
-        varsToPlot = {"on-fault":get_variable_ids(args.v),"off-fault":get_variable_ids(args.v)}
+        v = get_variable_ids(args.v)
+        varsToPlot = {"on-fault":v,"off-fault":v,"ref_on-fault":get_reference_ids(v,"on-fault"),"ref_off-fault":get_reference_ids(v,"off-fault")}
     else:
         varsToPlot = SCENARIOS_SHOW_CONFIG.get(args.scenario)
 
