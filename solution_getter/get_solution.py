@@ -75,7 +75,13 @@ def get_tracer_pos(tracer_name:str):
         x = get_single_coordinate(tracer_name)
         tracer_name = tracer_name[3+(1 if x < 0.0 else 0):]
         x += 20.0
-    
+    elif tracer_name.startswith("near"):
+        x = 19.9
+        tracer_name = tracer_name[4:]
+    elif tracer_name.startswith("far"):
+        x = 20.1
+        tracer_name = tracer_name[3:]
+
     #skip 'st'
     tracer_name = tracer_name[2:]
     z = get_single_coordinate(tracer_name)
@@ -144,22 +150,22 @@ for tracer in tracer_names:
         raw_data_button.click()
         time.sleep(1)
         raw_data = driver.find_element(By.TAG_NAME, "pre").text
-        first_line += raw_data[raw_data.find("\nt ")+2:].split("\n")[0] + "\n"
+        first_line += raw_data[max(raw_data.find("\nt ")+2,raw_data.find("\n t ")+3):].split("\n")[0] 
         driver.back()
-    if not got_off_fault_param_names and tracer.startswith("body"):
+    if not got_off_fault_param_names and (tracer.startswith("body") or tracer.startswith("near") or tracer.startswith("far")):
         got_off_fault_param_names = True
         raw_data_button = driver.find_element(By.NAME,RAW_DATA_CODE + tracer)
         raw_data_button.click()
         time.sleep(1)
         raw_data = driver.find_element(By.TAG_NAME, "pre").text
-        second_line += raw_data[raw_data.find("\nt ")+2:].split("\n")[0] + "\n"
+        second_line += raw_data[max(raw_data.find("\nt ")+2,raw_data.find("\n t ")+3):].split("\n")[0] 
         driver.back()
 
 
 with open(scenario_name.upper() + "_ref_" + reference_name + ".csv", "w") as output_file:
     # initialize csv file
-    output_file.write(first_line)
-    output_file.write(second_line)
+    output_file.write(first_line + "\n")
+    output_file.write(second_line + "\n")
     output_file.write("number(0), number(1), t, x(0), x(1), x(2), data \n")
     print("Initialized everything correctly, starting to get data now...")
     print("0% done")
@@ -175,10 +181,10 @@ with open(scenario_name.upper() + "_ref_" + reference_name + ".csv", "w") as out
         
         # retrieve tracer data
         raw_data = driver.find_element(By.TAG_NAME, "pre").text
-        raw_data_lines = raw_data[raw_data.find("\nt ")+1:].split("\n")
+        raw_data_lines = raw_data[max(raw_data.find("\nt "),raw_data.find("\n t "))+1:].split("\n")
 
         for j in range(1,len(raw_data_lines)):
-            if raw_data_lines[j].startswith("#"):
+            if raw_data_lines[j].startswith("#") or raw_data_lines[j].startswith(" #"):
                 continue
             output_file.write(format_data_line(i,tracer_pos,raw_data_lines[j]))
         
