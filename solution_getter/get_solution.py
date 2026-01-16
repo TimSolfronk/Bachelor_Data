@@ -20,6 +20,7 @@ PUB_AREA_CODE = "G0012"
 SCENARIOS_CODE = "G1045"
 SOLUTIONS_CODE = "G1047"
 RAW_DATA_CODE = "G1059"
+KNOWN_TRACER_PREFIXES = ["fault","body","near","far"]
 
 # Get all submit button names that start with the given code
 def get_all_possible_options(option_code):
@@ -67,18 +68,18 @@ def get_single_coordinate(tracer_name):
 # converts a tracer_name that is either structured as 'faultst-045dp000' or 'body030st-120dp075' to the corresponding tracer position
 def get_tracer_pos(tracer_name:str):
     x = 0.0
-    if tracer_name.startswith("fault"):
+    if tracer_name.startswith(KNOWN_TRACER_PREFIXES[0]): # fault
         x = 20.0
         tracer_name = tracer_name[5:]
-    elif tracer_name.startswith("body"):
+    elif tracer_name.startswith(KNOWN_TRACER_PREFIXES[1]): # body
         tracer_name = tracer_name[4:]
         x = get_single_coordinate(tracer_name)
         tracer_name = tracer_name[3+(1 if x < 0.0 else 0):]
         x += 20.0
-    elif tracer_name.startswith("near"):
+    elif tracer_name.startswith(KNOWN_TRACER_PREFIXES[2]): # near
         x = 19.9
         tracer_name = tracer_name[4:]
-    elif tracer_name.startswith("far"):
+    elif tracer_name.startswith(KNOWN_TRACER_PREFIXES[3]): # far
         x = 20.1
         tracer_name = tracer_name[3:]
 
@@ -144,7 +145,7 @@ got_off_fault_param_names = False
 first_line = "# data_on_fault = "
 second_line = "# data_off_fault = "
 for tracer in tracer_names:
-    if not got_on_fault_param_names and tracer.startswith("fault"):
+    if not got_on_fault_param_names and tracer.startswith(KNOWN_TRACER_PREFIXES[0]):
         got_on_fault_param_names = True
         raw_data_button = driver.find_element(By.NAME,RAW_DATA_CODE + tracer)
         raw_data_button.click()
@@ -152,7 +153,7 @@ for tracer in tracer_names:
         raw_data = driver.find_element(By.TAG_NAME, "pre").text
         first_line += raw_data[max(raw_data.find("\nt ")+2,raw_data.find("\n t ")+3):].split("\n")[0] 
         driver.back()
-    if not got_off_fault_param_names and (tracer.startswith("body") or tracer.startswith("near") or tracer.startswith("far")):
+    if not got_off_fault_param_names and (tracer.startswith(KNOWN_TRACER_PREFIXES[1]) or tracer.startswith(KNOWN_TRACER_PREFIXES[2]) or tracer.startswith(KNOWN_TRACER_PREFIXES[3])):
         got_off_fault_param_names = True
         raw_data_button = driver.find_element(By.NAME,RAW_DATA_CODE + tracer)
         raw_data_button.click()
@@ -172,6 +173,10 @@ with open(scenario_name.upper() + "_ref_" + reference_name + ".csv", "w") as out
 
     # get the data of every tracer, format it, and add it to the csv file 
     for i in range(0,len(tracer_names)):
+        if not tracer_names[i].startswith(tuple(KNOWN_TRACER_PREFIXES)):
+            print("Tracer " + tracer_names[i] + " doesn't start with any of the known prefixes: " + str(KNOWN_TRACER_PREFIXES) + ". Skipping...")
+            continue
+
         tracer_pos = get_tracer_pos(tracer_names[i])
 
         # go to raw data page of tracer
