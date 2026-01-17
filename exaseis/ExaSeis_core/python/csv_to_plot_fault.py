@@ -14,7 +14,7 @@ from pathlib import Path
 ROW_AMOUNT = 3              # How many rows of plots there should be (-> influences how many columns will be needed)
 ROUND_TO = 12               # To how many digits after the comma it should be rounded
 OFFSET_TO_CENTER = 20.
-MAX_ON_FAULT_OFFSET = 1
+MAX_ON_FAULT_OFFSET = 0.1
 
 REF_COLORS = ["r","g","y"]
 
@@ -86,6 +86,12 @@ SCENARIOS_SHOW_CONFIG = {
         "ref_off-fault":[0,1,4,5,2,3],
     },
     "tpv9":{
+        "on-fault":  [7,11,2,6,10,1],
+        "off-fault": [11,2,9,0,10,1],
+        "ref_on-fault":[2,0,1,5,3,4],
+        "ref_off-fault":[0,1,4,5,2,3],
+    },
+    "tpv8":{
         "on-fault":  [7,11,2,6,10,1],
         "off-fault": [11,2,9,0,10,1],
         "ref_on-fault":[2,0,1,5,3,4],
