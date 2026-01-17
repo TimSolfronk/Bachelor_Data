@@ -24,8 +24,8 @@
         var: data
     - !ConstantMap
       map:
-        mu_s: 0.677
-        s_xz: 0.0
+        mu_s: 0.325
+        s_xz: 17.5
 [t_0, f_cy, f_wy, f_cz, f_wz, n_yz, cohesion, mu_d, d_c, forced_rupture_time]: !ConstantMap
   map:
      t_0  : 0.5
@@ -37,4 +37,4 @@
      cohesion: 0.0
      mu_d : 0.3
      d_c  : 0.15 
-     forced_rupture_time : 1000000000.0
+     forced_rupture_time : 9999999.0

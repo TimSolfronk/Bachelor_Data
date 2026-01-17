@@ -54,8 +54,8 @@ mat[:] = arr
 nc.close()
 print('Done')
 
-y_coord = 0.0
-z_coord = -20.0
+y_coord = 10.0
+z_coord = 11.5
 with xr.open_dataset('tpv35_muS_sXZ.nc') as ds2:
     print(ds2)
     print(ds2.sel(y=y_coord,z=z_coord, method="nearest")["data"].values)
