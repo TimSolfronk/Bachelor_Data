@@ -41,16 +41,18 @@ NAME_CONFIGS = { "tpv": [
                     "sigma_yz"]
 }
 
-# every config is an array of exactly 3 elements
+# every config is an array of exactly 3 or 4 elements
 #   1. Array of ids of the data plots to show (e.g. [0,1,2] -> show var 1, 2 and 3)
 #   2. Name config
 #   3. A boolean that states if the coordinates should be offset by (-20, 0, -20) (needed for dynamic rupture simulations) 
+#   4. Array of the respective ideas in a reference solution
 SCENARIO_CONFIGS = {
     "tpv5": [[7,11,2,6,10,1], NAME_CONFIGS["tpv"],True],
     "tpv26":[[7,11,2,6,10,1], NAME_CONFIGS["tpv"],True],
     "tpv28":[[7,11,2,6,10,1], NAME_CONFIGS["tpv"],True],
     "tpv29":[[7,11,2,6,10,1], NAME_CONFIGS["tpv"],True],
-    "loh1":[[0,1,2], NAME_CONFIGS["loh"],False],
+    "loh1":[[0,1,2], NAME_CONFIGS["loh"],False,[0,1,2]],
+    "hhs1":[[0,1,2], NAME_CONFIGS["loh"],False,[0,1,2]],
     "tpv6": [[11,7,2,9,3,0,10,6,1], NAME_CONFIGS["tpv"],True,[0,2,1,6,8,7,3,5,4]],
     "tpv12": [[11,2,10,1,9,0], NAME_CONFIGS["tpv"],True],
     "tpv16": [[11,2,9,0,10,1], NAME_CONFIGS["tpv"],True],
