@@ -8,37 +8,38 @@ class TPV6(Scenario):
     """
     Part of a series of benchmarks by the Statewide California Earthquake Center (SCEC)
 
-    Spontaneous rupture on a vertical strike-slip fault in a homogeneous halfspace.
-    There are slightly heterogeneous initial stress conditions.
+    Spontaneous rupture on a vertical strike-slip fault in a bimaterial halfspace, with high shear modulus contrast across the fault (a "well-posed" problem).
 
     The description of the scenario can be found at: https://strike.scec.org/cvws/tpv6docs.html
     """
 
-    domain_offset   = [6.5,  0., 6.5] #centers the fault which is at 20.
-    domain_size     = [27., 27., 27.] #leads to a cell size of 0.333 for 81 cells
+    domain_offset   = [3.8, 0.0, 3.8] #centers the fault which is at 20.
+    domain_size     = [32.4, 32.4, 32.4] #leads to one cell outside of fault on each side (with 27 cells)
 
     end_time = 10.0
 
-    tracer_coordinates = [
-          # Near Side of Fault
-          # Surface
-          [19.78, 0.1,  8.0],
-          [19.78, 0.1, 20.0],
-          [19.78, 0.1, 32.0],
-          # Underground
-          [19.78, 7.5,  8.0],
-          [19.78, 7.5, 32.0],
+    tracer_sets = {
+        "l3_o5": [
+            # Far Side of Fault
+            # Surface
+            [19.90, 0.0,  8.0],
+            [19.90, 0.0, 20.0],
+            [19.90, 0.0, 32.0],
+            # Underground
+            [19.90, 7.5,  8.0],
+            [19.90, 7.5, 32.0],
 
+            # Near Side of Fault
+            # Surface
+            [19.881, 0.0,  8.0],
+            [19.881, 0.0, 20.0],
+            [19.881, 0.0, 32.0],
+            # Underground
+            [19.881, 7.5,  8.0],
+            [19.881, 7.5, 32.0]],
+    }
 
-          # Far Side of Fault
-          # Surface
-          [20.19, 0.1,  8.0],
-          [20.19, 0.1, 20.0],
-          [20.19, 0.1, 32.0],
-          # Underground
-          [20.19, 7.5,  8.0],
-          [20.19, 7.5, 32.0],
-    ]
+    tracer_coordinates = tracer_sets["l3_o5"]
 
     def initial_conditions(self):
         return """

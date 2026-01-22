@@ -14,42 +14,102 @@ class TPV5(Scenario):
     The description of the scenario can be found at: https://strike.scec.org/cvws/tpv5docs.html
     """
 
-    domain_offset   = [6.5,  0., 6.5] #centers the fault which is at 20.
-    domain_size     = [27., 27., 27.] #leads to a cell size of 0.333 for 81 cells
+    domain_offset   = [3.8, 0.0, 3.8] #centers the fault which is at 20.
+    domain_size     = [32.4, 32.4, 32.4] #leads to one cell outside of fault on each side (with 27 cells)
 
     end_time = 10.0
 
-    tracer_coordinates = [
-          # off-fault at surface
-          #[17.0, 0.0,  8.0],
-          #[17.0, 0.0, 32.0],
-          [23.0, 0.0,  8.0],
-          [23.0, 0.0, 32.0],
-          # off-fault at hypocenter depth
-          #[17.0, 7.5,  8.0],
-          #[17.0, 7.5, 32.0],
-          [23.0, 7.5,  8.0],
-          [23.0, 7.5, 32.0],
-          # on-fault at surface
-          [20.0, 0.0,  8.0],
-          [20.0, 0.0, 12.5],
-          [20.0, 0.0, 15.5],
-          [20.0, 0.0, 20.0], #surface above fault hypocenter
-          [20.0, 0.0, 24.5],
-          [20.0, 0.0, 27.5],
-          [20.0, 0.0, 32.0],
-          #on-fault below surface
-          [20.0, 3.0, 20.0], #above fault hypocenter
-          [20.0, 12.0, 20.0], #below fault hypocenter
-          #on-fault at hypocenter depth
-          [20.0, 7.5,  8.0],
-          [20.0, 7.5, 12.5], #center of left patch
-          [20.0, 7.5, 15.5],
-          [20.0, 7.5, 20.0], #on fault hypocenter
-          [20.0, 7.5, 24.5],
-          [20.0, 7.5, 27.5], #center of right patch
-          [20.0, 7.5, 32.0]
-    ]
+    # tracer sets for the domain size 32.4
+    tracer_sets = {
+        "l3_o5": [
+            # off-fault at surface
+            [23.0, 0.0,  8.0],
+            [23.0, 0.0, 32.0],
+            # off-fault at hypocenter depth
+            [23.0, 7.5,  8.0],
+            [23.0, 7.5, 32.0],
+            # on-fault at surface
+            [20.137, 0.0,  8.0],
+            [20.137, 0.0, 12.5],
+            [20.137, 0.0, 15.5],
+            [20.137, 0.0, 20.0], #surface above fault hypocenter
+            [20.137, 0.0, 24.5],
+            [20.137, 0.0, 27.5],
+            [20.137, 0.0, 32.0],
+            [20.137, 3.0, 20.0], #above fault hypocenter
+            [20.137, 12.0, 20.0], #below fault hypocenter
+            #on-fault at hypocenter depth
+            [20.137, 7.5,  8.0],
+            [20.137, 7.5, 12.5], #center of left patch
+            [20.137, 7.5, 15.5],
+            [20.137, 7.5, 20.0], #on fault hypocenter
+            [20.137, 7.5, 24.5],
+            [20.137, 7.5, 27.5], #center of right patch
+            [20.137, 7.5, 32.0],
+
+            [20.117, 0.0,  8.0],
+            [20.117, 0.0, 12.5],
+            [20.117, 0.0, 15.5],
+            [20.117, 0.0, 20.0], #surface above fault hypocenter
+            [20.117, 0.0, 24.5],
+            [20.117, 0.0, 27.5],
+            [20.117, 0.0, 32.0],
+            [20.117, 3.0, 20.0], #above fault hypocenter
+            [20.117, 12.0, 20.0], #below fault hypocenter
+            #on-fault at hypocenter depth
+            [20.117, 7.5,  8.0],
+            [20.117, 7.5, 12.5], #center of left patch
+            [20.117, 7.5, 15.5],
+            [20.117, 7.5, 20.0], #on fault hypocenter
+            [20.117, 7.5, 24.5],
+            [20.117, 7.5, 27.5], #center of right patch
+            [20.117, 7.5, 32.0]],
+        "l3_o7": [
+            # off-fault at surface
+            [23.0, 0.0,  8.0],
+            [23.0, 0.0, 32.0],
+            # off-fault at hypocenter depth
+            [23.0, 7.5,  8.0],
+            [23.0, 7.5, 32.0],
+            # on-fault at surface
+            [20.102, 0.0,  8.0],
+            [20.102, 0.0, 12.5],
+            [20.102, 0.0, 15.5],
+            [20.102, 0.0, 20.0], #surface above fault hypocenter
+            [20.102, 0.0, 24.5],
+            [20.102, 0.0, 27.5],
+            [20.102, 0.0, 32.0],
+            [20.102, 3.0, 20.0], #above fault hypocenter
+            [20.102, 12.0, 20.0], #below fault hypocenter
+            #on-fault at hypocenter depth
+            [20.102, 7.5,  8.0],
+            [20.102, 7.5, 12.5], #center of left patch
+            [20.102, 7.5, 15.5],
+            [20.102, 7.5, 20.0], #on fault hypocenter
+            [20.102, 7.5, 24.5],
+            [20.102, 7.5, 27.5], #center of right patch
+            [20.102, 7.5, 32.0],
+
+            [20.082, 0.0,  8.0],
+            [20.082, 0.0, 12.5],
+            [20.082, 0.0, 15.5],
+            [20.082, 0.0, 20.0], #surface above fault hypocenter
+            [20.082, 0.0, 24.5],
+            [20.082, 0.0, 27.5],
+            [20.082, 0.0, 32.0],
+            [20.082, 3.0, 20.0], #above fault hypocenter
+            [20.082, 12.0, 20.0], #below fault hypocenter
+            #on-fault at hypocenter depth
+            [20.082, 7.5,  8.0],
+            [20.082, 7.5, 12.5], #center of left patch
+            [20.082, 7.5, 15.5],
+            [20.082, 7.5, 20.0], #on fault hypocenter
+            [20.082, 7.5, 24.5],
+            [20.082, 7.5, 27.5], #center of right patch
+            [20.082, 7.5, 32.0]],
+    }
+
+    tracer_coordinates = tracer_sets["l3_o5"]
 
     def initial_conditions(self):
         return """
