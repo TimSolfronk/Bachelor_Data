@@ -14,7 +14,7 @@ from pathlib import Path
 ROW_AMOUNT = 3              # How many rows of plots there should be (-> influences how many columns will be needed)
 ROUND_TO = 12               # To how many digits after the comma it should be rounded
 OFFSET_TO_CENTER = 20.
-MAX_ON_FAULT_OFFSET = 0.1 *10
+MAX_ON_FAULT_OFFSET = 0.1 * 10
 
 REF_COLORS = ["r","g","y"]
 
